@@ -58,10 +58,10 @@ void nade_napalm()
 	
 	spamsound(self, CH_SHOTS, "weapons/fireball_fire.wav", VOL_BASE, ATTEN_NORM);
 	
-	proj = spawn ();
-	proj.owner = self.owner;
-	proj.realowner = self.realowner;
-	proj.team = self.owner.team;
+	proj = spawn();
+	proj.owner = proj.realowner = self.realowner;
+	//proj.team = self.realowner.team;
+	proj.team = 1; // damage owner
 	proj.classname = "grenade";
 	proj.bot_dodge = TRUE;
 	proj.bot_dodgerating = autocvar_g_nades_napalm_damage;
