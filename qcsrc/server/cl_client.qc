@@ -2062,6 +2062,7 @@ void ShowRespawnCountdown()
 	}
 }
 
+.float was_spectator;
 void LeaveSpectatorMode()
 {
 	if(self.caplayer)
@@ -2081,7 +2082,9 @@ void LeaveSpectatorMode()
 
 			Kill_Notification(NOTIF_ONE_ONLY, self, MSG_CENTER_CPID, CPID_PREVENT_JOIN);
 
+			self.was_spectator = 1;
 			PutClientInServer();
+			self.was_spectator = 0;
 
 			if(IS_PLAYER(self)) { Send_Notification(NOTIF_ALL, world, MSG_INFO, INFO_JOIN_PLAY, self.netname); }
 		}

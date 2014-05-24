@@ -51,6 +51,7 @@ float ons_notification_time[17];
 .vector ons_deathloc;
 
 .entity ons_spawn_by;
+.float  ons_radar_team;
 
 // declarations for functions used outside gamemode_onslaught.qc
 void ons_Generator_UpdateSprite(entity e);

@@ -1908,12 +1908,12 @@ void HUD_Timer(void)
 
 // Radar (#6)
 //
+float skip_mousepos;
 
 float HUD_Radar_Clickable()
 {
 	return hud_panel_radar_mouse && !hud_panel_radar_temp_hidden;
 }
-
 void HUD_Radar_Show_Maximized(float show,float clickable)
 {
 	hud_panel_radar_maximized = show;
@@ -1926,6 +1926,7 @@ void HUD_Radar_Show_Maximized(float show,float clickable)
 			if(autocvar_hud_cursormode)
 				setcursormode(1);
 			hud_panel_radar_mouse = 1; 
+			skip_mousepos = 1;
 		}
 	}
 	else if ( hud_panel_radar_mouse )
@@ -1951,8 +1952,15 @@ float HUD_Radar_InputEvent(float bInputType, float nPrimary, float nSecondary)
 
 	if(bInputType == 3)
 	{
-		mousepos_x = nPrimary;
-		mousepos_y = nSecondary;
+		if ( skip_mousepos )
+		{
+			skip_mousepos = 0;
+		}
+		else
+		{
+			mousepos_x = nPrimary;
+			mousepos_y = nSecondary;
+		}
 		return true;
 	}
 
@@ -2248,11 +2256,15 @@ void HUD_Radar(void)
 	
 	vector coord;
 	vector brightcolor;
+	float team_to_check = myteam+1;
+	if ( team_to_check < 0  || team_to_check > 16)
+		team_to_check = getstati(STAT_ONS_RADAR_TEAM);
 	for(tm = world; (tm = findflags(tm, teamradar_icon, 0xFFFFFF)); )
 	{
 		if ( hud_panel_radar_mouse )
 		if ( tm.health > 0 )
-		if ( tm.team == myteam+1 )
+		if ( tm.team > 0 )
+		if ( tm.team == team_to_check )
 		{
 			coord = teamradar_texcoord_to_2dcoord(teamradar_3dcoord_to_texcoord(tm.origin));
 			if ( vlen(mousepos-coord) < 8 )
@@ -2279,14 +2291,16 @@ void HUD_Radar(void)
 	if ( hud_panel_radar_mouse )
 	{			
 		string message = "Click to select teleport destination";
+		vector message_color = '1 1 1';
 		
 		if ( getstati(STAT_HEALTH) <= 0 )
 		{
 			message = "Click to select spawn location";
+			message_color = colormapPaletteColor(team_to_check-1, FALSE);
 		}
 		
-		drawcolorcodedstring(pos + '0.5 0 0' * (mySize_x - stringwidth(message, TRUE, hud_fontsize)) - '0 1 0' * hud_fontsize_y * 2,
-							 message, hud_fontsize, hud_panel_radar_foreground_alpha, DRAWFLAG_NORMAL);
+		drawstring(pos + '0.5 0 0' * (mySize_x - stringwidth(message, TRUE, hud_fontsize)) - '0 1 0' * hud_fontsize_y * 2,
+							 message, hud_fontsize, message_color, hud_panel_radar_foreground_alpha, DRAWFLAG_NORMAL);
 		
 		hud_panel_radar_bottom = pos_y + mySize_y + hud_fontsize_y;
 	}

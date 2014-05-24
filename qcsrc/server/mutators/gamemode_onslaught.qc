@@ -1684,7 +1684,7 @@ entity ons_Nearest_ControlPoint_2D(vector pos, float max_dist)
 		delta_z = 0;
 		distance = vlen(delta);
 		
-		if(SAME_TEAM(tmp_entity, self))
+		if(SAME_TEAM(tmp_entity, self) || (tmp_entity.team > 0 && tmp_entity.team == self.ons_radar_team) )
 		if(tmp_entity.iscaptured)
 		if(max_dist <= 0 || distance <= max_dist)
 		if(closest_target == world || distance <= smallest_distance )
@@ -1702,7 +1702,7 @@ entity ons_Nearest_ControlPoint_2D(vector pos, float max_dist)
 		delta_z = 0;
 		distance = vlen(delta);
 		
-		if(SAME_TEAM(tmp_entity, self))
+		if(SAME_TEAM(tmp_entity, self) || (tmp_entity.team > 0 && tmp_entity.team == self.ons_radar_team) )
 		if(max_dist <= 0 || distance <= max_dist)
 		if(closest_target == world || distance <= smallest_distance )
 		{
@@ -1816,6 +1816,8 @@ MUTATOR_HOOKFUNCTION(ons_PlayerSpawn)
 		self.player_blocked = TRUE;
 		return FALSE;
 	}
+	
+	self.ons_radar_team = -1;
 	
 	entity l;
 	for(l = ons_worldgeneratorlist; l; l = l.ons_worldgeneratornext)
@@ -2104,6 +2106,17 @@ MUTATOR_HOOKFUNCTION(ons_SV_ParseClientCommand)
 			
 			sprint(self, "\nNo teleportation for you\n");
 		}
+		else if ( self.ons_radar_team > 0 )
+		{
+			entity closest_target = ons_Nearest_ControlPoint_2D(pos, autocvar_g_onslaught_click_radius);
+			if ( closest_target == world )
+			{
+				sprint(self, "\nNo control point found\n");
+				return 1;
+			}
+			self.ons_spawn_by = closest_target;
+			PutClientInServer();
+		}
 		
 		return 1;
 	}
@@ -2120,6 +2133,44 @@ MUTATOR_HOOKFUNCTION(ons_PlayerUseKey)
 	}
 	
 	return FALSE;
+}
+
+
+MUTATOR_HOOKFUNCTION(ons_PutClientInServer)
+{
+	if ( autocvar_g_onslaught_spawn_choose )
+	{
+		if ( IS_PLAYER(self) )
+		{
+			
+			if ( self.was_spectator )
+			if ( !self.ons_spawn_by )
+			{
+				if(self.team < 0)
+					JoinBestTeam(self, FALSE, TRUE);
+				self.ons_radar_team = self.team;
+				if ( ons_Count_SelfControlPoints() > 1 ) 
+				{
+					self.classname = "observer";
+					stuffcmd(self, "qc_cmd_cl hud clickradar\n");
+				}
+			}
+		}
+		else if ( IS_SPEC(self) || IS_OBSERVER(self) )
+		{
+			if ( self.ons_radar_team > 0 )
+			{
+				self.team = self.ons_radar_team;
+				SetPlayerColors(self, self.ons_radar_team - 1);
+				self.ons_radar_team = -1;
+				ons_Teleport(self,self.ons_spawn_by,autocvar_g_onslaught_teleport_radius,FALSE); 
+				self.classname = "player";
+			}
+		}
+	}
+	
+	return FALSE;
+	
 }
 
 // ==========
@@ -2211,6 +2262,7 @@ void ons_Initialize()
 	ons_captureshield_force = autocvar_g_onslaught_shield_force;
 	
 	addstat(STAT_ROUNDLOST, AS_INT, ons_roundlost);
+	addstat(STAT_ONS_RADAR_TEAM, AS_INT, ons_radar_team);
 	
 	InitializeEntity(world, ons_DelayedInit, INITPRIO_GAMETYPE);
 }
@@ -2229,6 +2281,7 @@ MUTATOR_DEFINITION(gamemode_onslaught)
 	MUTATOR_HOOK(GetTeamCount, ons_GetTeamCount, CBC_ORDER_ANY);
 	MUTATOR_HOOK(SV_ParseClientCommand, ons_SV_ParseClientCommand, CBC_ORDER_ANY);
 	MUTATOR_HOOK(PlayerUseKey, ons_PlayerUseKey, CBC_ORDER_ANY);
+	MUTATOR_HOOK(PutClientInServer, ons_PutClientInServer, CBC_ORDER_ANY);
 
 	MUTATOR_ONADD
 	{

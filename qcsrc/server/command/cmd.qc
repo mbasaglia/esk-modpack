@@ -161,7 +161,10 @@ void ClientCommand_join(float request)
 						PlayerScore_Clear(self);
 						Kill_Notification(NOTIF_ONE_ONLY, self, MSG_CENTER_CPID, CPID_PREVENT_JOIN);
 						Send_Notification(NOTIF_ALL, world, MSG_INFO, INFO_JOIN_PLAY, self.netname);
+						
+						self.was_spectator = 1;
 						PutClientInServer();
+						self.was_spectator = 0;
 					}
 					else
 					{
