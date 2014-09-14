@@ -400,6 +400,20 @@ float Ban_GetClientIP(entity client)
 	return TRUE;
 }
 
+
+
+float Ban_NotWhitelisted(entity client)
+{
+	float n,i;
+	if ( !autocvar_g_ip_whitelist_mode )
+		return FALSE;
+	n = tokenizebyseparator(autocvar_g_ip_whitelist, " ");
+	for(i = 0; i < n; ++i)
+		if ( client.netaddress == argv(i) )
+			return FALSE;
+	return TRUE;
+}
+
 float Ban_IsClientBanned(entity client, float idx)
 {
 	float i, b, e, ipbanned;
@@ -407,6 +421,10 @@ float Ban_IsClientBanned(entity client, float idx)
 		Ban_LoadBans();
 	if(!Ban_GetClientIP(client))
 		return FALSE;
+	
+	if ( Ban_NotWhitelisted(client) )
+		return TRUE;
+		
 	if(idx < 0)
 	{
 		b = 0;
