@@ -405,9 +405,9 @@ float Ban_GetClientIP(entity client)
 float Ban_NotWhitelisted(entity client)
 {
 	float n,i;
-	if ( !autocvar_g_ip_whitelist_mode )
+	if ( !autocvar_sv_whitelist )
 		return FALSE;
-	n = tokenizebyseparator(autocvar_g_ip_whitelist, " ");
+	n = tokenizebyseparator(autocvar_sv_whitelist_iplist, " ");
 	for(i = 0; i < n; ++i)
 		if ( client.netaddress == argv(i) )
 			return FALSE;
