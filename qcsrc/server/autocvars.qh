@@ -1599,4 +1599,6 @@ float autocvar_g_buffs_flight_gravity;
 float autocvar_g_buffs_jump_height;
 float autocvar_g_physics_clientselect;
 string autocvar_g_physics_clientselect_options;
-
+float autocvar_sv_usepassword;
+string autocvar_sv_password;
+var string autocvar_sv_password_cvar = "cl_server_password";

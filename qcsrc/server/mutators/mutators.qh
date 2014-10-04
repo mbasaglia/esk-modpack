@@ -47,3 +47,4 @@ MUTATOR_DECLARATION(mutator_piggyback);
 MUTATOR_DECLARATION(mutator_buffs);
 
 MUTATOR_DECLARATION(sandbox);
+MUTATOR_DECLARATION(sv_password);
