@@ -551,7 +551,15 @@ vector Monster_Move_Target(entity targ)
 			self.last_trace = time + 0.3;
 			if ( self.piggybacker )
 			{
-				makevectors(self.piggybacker.angles);
+				vector piggy_angles = self.piggybacker.angles;
+				if ( self.piggybacker.pressedkeys & KEY_BACKWARD )
+					piggy_angles_y += 180;
+				else if ( self.piggybacker.pressedkeys & KEY_RIGHT )
+					piggy_angles_y -= 90;
+				else if ( self.piggybacker.pressedkeys & KEY_LEFT )
+					piggy_angles_y += 90;
+				
+				makevectors(piggy_angles);
 				return self.origin + v_forward * self.wander_distance;
 			}
 			return (self.monster_follow) ? self.monster_follow.origin : self.origin;
@@ -809,7 +817,7 @@ void Monster_Move(float runspeed, float walkspeed, float stpspeed, float manim_r
 	if(vlen(self.origin - self.moveto) > 64)
 	{
 		if((self.flags & FL_ONGROUND) || ((self.flags & FL_FLY) || (self.flags & FL_SWIM)))
-			Monster_CalculateVelocity(self, self.moveto, self.origin, TRUE, ((self.enemy) ? runspeed : walkspeed));
+			Monster_CalculateVelocity(self, self.moveto, self.origin, TRUE, ((self.enemy || (self.piggybacker && (self.piggybacker.pressedkeys&KEY_FORWARD)) ) ? runspeed : walkspeed));
 
 		if(time > self.pain_finished)
 		if(!self.state)
