@@ -549,6 +549,11 @@ vector Monster_Move_Target(entity targ)
 		{
 			self.monster_movestate = MONSTER_MOVE_FOLLOW;
 			self.last_trace = time + 0.3;
+			if ( self.piggybacker )
+			{
+				makevectors(self.piggybacker.angles);
+				return self.origin + v_forward * self.wander_distance;
+			}
 			return (self.monster_follow) ? self.monster_follow.origin : self.origin;
 		}
 		case MONSTER_MOVE_SPAWNLOC:
