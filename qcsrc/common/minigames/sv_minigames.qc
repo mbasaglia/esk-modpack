@@ -166,6 +166,10 @@ float minigame_addplayer(entity minigame_session, entity player)
 
 entity start_minigame(entity player, string minigame )
 {
+	entity xml = xml_load_document("foobar.xml",XML_LOADFLAG_MINIMAL);
+	xml_debug(xml);
+	xml_cleanup(xml);
+	
 	if ( !autocvar_sv_minigames || !IS_REAL_CLIENT(player) )
 		return world;
 	

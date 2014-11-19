@@ -1,0 +1,71 @@
+// Open XML file resource
+float xml_open ( string file ) = #128;
+// Cloase XML file resource
+void xml_close ( float xmldoc ) = #129;
+// Get name of the current node in the XML file
+string xml_tree_name(float xmldoc) = #130;
+// Get the text contents of the current node in the XML file
+string xml_tree_text(float xmldoc) = #131;
+// Whether the current node is a leaf
+float xml_tree_leaf(float xmldoc) = #132;
+// Change the current node to its first child
+void xml_tree_child(float xmldoc) = #133;
+// Change the current node to its parent
+void xml_tree_parent(float xmldoc) = #134;
+// Whether the current node has a sibling
+float xml_tree_has_sibling(float xmldoc) = #135;
+// Change the current node to its sibling
+void xml_tree_next(float xmldoc) = #136;
+// The type of the current node
+float xml_tree_type(float xmldoc) = #137;
+// Change the current node to the document root
+void xml_tree_root(float xmldoc) = #138;
+
+// possible results of xml_tree_type()
+const float XML_ELEMENT_NODE       =  1;
+const float XML_ATTRIBUTE_NODE     =  2;
+const float XML_TEXT_NODE          =  3;
+const float XML_CDATA_SECTION_NODE =  4;
+const float XML_ENTITY_REF_NODE    =  5;
+const float XML_ENTITY_NODE        =  6;
+const float XML_PI_NODE            =  7;
+const float XML_COMMENT_NODE       =  8;
+const float XML_DOCUMENT_NODE      =  9;
+const float XML_DOCUMENT_TYPE_NODE = 10;
+const float XML_DOCUMENT_FRAG_NODE = 11;
+const float XML_NOTATION_NODE      = 12;
+const float XML_HTML_DOCUMENT_NODE = 13;
+const float XML_DTD_NODE           = 14;
+const float XML_ELEMENT_DECL       = 15;
+const float XML_ATTRIBUTE_DECL     = 16;
+const float XML_ENTITY_DECL        = 17;
+const float XML_NAMESPACE_DECL     = 18;
+const float XML_XINCLUDE_START     = 19;
+const float XML_XINCLUDE_END       = 20;
+const float XML_DOCB_DOCUMENT_NODE = 21;
+
+const float XML_LOADFLAG_MINIMAL  = 0x00; // only preserve elements and attributes
+const float XML_LOADFLAG_COMMENTS = 0x01; // preserve comments
+const float XML_LOADFLAG_TEXT     = 0x02; // preserve text/cdata as separate nodes
+
+// Next sibling of the current XML element or attribute
+.entity xml_next_sibling;
+// Previous sibling of the current XML element or attribute
+.entity xml_prev_sibling;
+// Parent element
+.entity xml_parent;
+// First child element
+.entity xml_first_child;
+// First child attribute
+.entity xml_first_attribute;
+// Name of the attribue / element tag
+.string xml_name;
+// Text contents of the element/attribute
+.string xml_text;
+
+// Load the xml file into an entity structure
+entity xml_load_document( string filename, float loadflags );
+// Cleanup a XML entity structure
+void xml_cleanup(entity doc);
+// Debug a XML entity structure
+void xml_debug(entity doc);

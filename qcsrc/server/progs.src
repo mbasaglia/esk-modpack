@@ -56,6 +56,7 @@ defs.qh		// Should rename this, it has fields and globals
 ../common/monsters/sv_monsters.qh
 ../common/monsters/spawn.qh
 
+../common/minigames/xml.qh
 ../common/minigames/sv_minigames.qh
 
 ../common/turrets/turrets.qh
@@ -268,4 +269,5 @@ mutators/mutators_include.qc
 ../common/notifications.qc
 ../common/effects.qc
 
+../common/minigames/xml.qc
 ../common/minigames/sv_minigames.qc
