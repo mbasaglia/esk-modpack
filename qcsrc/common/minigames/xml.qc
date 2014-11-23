@@ -66,13 +66,22 @@ entity xml_load_element(entity prev_sibling, float xmlid, float loadflags)
 
 entity xml_load_document( string filename, float loadflags )
 {
-	float xmldoc = xml_open(filename);
+	float xmlfile = xml_open(filename);
 	entity xml_root  = world;
-	if ( xmldoc )
+	if ( xmlfile )
 	{
-		dprint("xmlopen:",ftos(xmldoc),"\n\n");
-		xml_root = xml_load_element(world,xmldoc,loadflags);
-		xml_close(xmldoc);
+		dprint("xmlopen:",ftos(xmlfile),"\n\n");
+		xml_root = xml_load_element(world,xmlfile,loadflags);
+		xml_close(xmlfile);
+		if ( xml_root )
+		{
+			entity t = xml_root;
+			xml_root = spawn();
+			xml_root.classname = "xml_document";
+			// TODO load encoding and stuff(?)
+			xml_root.xml_first_child = t;
+			xml_root.xml_name = strzone(filename);
+		}
 	}
 	return xml_root;
 }
@@ -102,6 +111,7 @@ void xml_debug_recurse(string prefix, entity e)
 		case "xml_text":
 		case "xml_cdata":
 		case "xml_comment":
+		case "xml_document":
 			dprint("<",e.xml_name);
 			dprint(" (",e.classname,") ");
 			if ( e.xml_first_attribute )
