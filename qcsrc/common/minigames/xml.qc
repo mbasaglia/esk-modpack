@@ -10,6 +10,28 @@ entity xml_skip_node(entity prev_sibling, float xmlid, float loadflags)
 	return world;
 }
 
+entity xml_load_attributes(entity prev_sibling, float xmlid)
+{
+	if ( xml_tree_type(xmlid) == XML_ATTRIBUTE_NODE )
+	{
+		entity attr = spawn();
+		attr.classname = "xml_attribute";
+		attr.xml_prev_sibling = prev_sibling;
+		attr.xml_name = strzone(xml_tree_name(xmlid));
+		attr.xml_text = xml_tree_text(xmlid);
+		if ( attr.xml_text )
+			attr.xml_text = strzone( attr.xml_text );
+		if ( xml_tree_has_sibling(xmlid) )
+		{
+			xml_tree_next(xmlid);
+			attr.xml_next_sibling = xml_load_attributes(attr,xmlid);
+		}
+		
+		return attr;
+	}
+	return world;
+}
+
 entity xml_load_element(entity prev_sibling, float xmlid, float loadflags)
 {
 	string class_name;
@@ -47,8 +69,11 @@ entity xml_load_element(entity prev_sibling, float xmlid, float loadflags)
 	elem.xml_text = xml_tree_text(xmlid);
 	if ( elem.xml_text )
 		elem.xml_text = strzone( elem.xml_text );
-	/// TODO xml_offset
-	/// TODO attributes
+	if ( xml_tree_attribute(xmlid) )
+	{
+		elem.xml_first_attribute = xml_load_attributes(world,xmlid);
+		xml_tree_parent(xmlid);
+	}
 	if ( !xml_tree_leaf(xmlid) )
 	{
 		xml_tree_child(xmlid);
@@ -125,6 +150,11 @@ void xml_debug_recurse(string prefix, entity e)
 			if ( e.xml_next_sibling )
 				xml_debug_recurse(prefix,e.xml_next_sibling);
 			return;
+		case "xml_attribute":
+			dprint(e.xml_name," = ",e.xml_text,"\n");
+			if ( e.xml_next_sibling )
+				xml_debug_recurse(prefix,e.xml_next_sibling);
+			return;
 		default:
 			dprint("^1Unknown class:^3 ",e.classname,"\n");
 	}
@@ -133,4 +163,13 @@ void xml_debug_recurse(string prefix, entity e)
 void xml_debug(entity doc)
 {
 	xml_debug_recurse("",doc);
+}
+
+string xml_attribute(entity xml_element, string attribute)
+{
+	entity att;
+	for ( att = xml_element.xml_first_attribute; att; att = att.xml_next_sibling )
+		if ( att.xml_name == attribute )
+			return att.xml_text;
+	return string_null;
 }

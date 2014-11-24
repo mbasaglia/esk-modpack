@@ -20,6 +20,9 @@ void xml_tree_next(float xmldoc) = #136;
 float xml_tree_type(float xmldoc) = #137;
 // Change the current node to the document root
 void xml_tree_root(float xmldoc) = #138;
+// Change current node to the first attribute
+// Returns 1 if the change has happened, otherwise (no attributes) 0
+float xml_tree_attribute(float xmldoc) = #139;
 
 // possible results of xml_tree_type()
 const float XML_ELEMENT_NODE       =  1;
@@ -69,3 +72,6 @@ entity xml_load_document( string filename, float loadflags );
 void xml_cleanup(entity doc);
 // Debug a XML entity structure
 void xml_debug(entity doc);
+
+// Get the value of an attribute of a xml element
+string xml_attribute(entity xml_element, string attribute);
