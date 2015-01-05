@@ -157,7 +157,7 @@ void jeff_Announcer_PlayerDies(entity attacker, float deathtype, entity targ, en
 	// play the announcements
 	if(attacker.meleekill_count == autocvar_jeff_announce_jackhammer_count)
 	if((DEATH_ISWEAPON(deathtype, WEP_SHOTGUN) || DEATH_ISWEAPON(deathtype, WEP_SHOCKWAVE)) && (deathtype & HITTYPE_SECONDARY))
-		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_JACKHAMMER);
+		jeff_Announcer_Send(attacker, TRUE, ANNCE_JEFF_JACKHAMMER);
 
 	if(DEATH_ISWEAPON(deathtype, WEP_BLASTER) || ((DEATH_ISWEAPON(deathtype, WEP_SHOTGUN) || DEATH_ISWEAPON(deathtype, WEP_SHOCKWAVE)) && (deathtype & HITTYPE_SECONDARY)))
 		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_HUMILIATION);
@@ -169,7 +169,7 @@ void jeff_Announcer_PlayerDies(entity attacker, float deathtype, entity targ, en
 	if(attacker.lastkiller == targ)
 		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_RETRIBUTION);
 	else
-		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_TEAMKILLER);
+		jeff_Announcer_Send(attacker, TRUE, ANNCE_JEFF_TEAMKILLER);
 
 	if(vlen(attacker.origin - targ.origin) > autocvar_jeff_announce_eagleeye_distance)
 		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_EAGLEEYE);
@@ -190,8 +190,8 @@ void jeff_Announcer_PlayerDies(entity attacker, float deathtype, entity targ, en
 	if(time - targ.lastkiller_time <= autocvar_jeff_announce_mutdestruct_time)
 	if(attacker.lastkiller == targ && targ.lastkiller == attacker)
 	{
-		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_MUTDESTRUCT);
-		jeff_Announcer_Send(targ, FALSE, ANNCE_JEFF_MUTDESTRUCT);
+		jeff_Announcer_Send(attacker, TRUE, ANNCE_JEFF_MUTDESTRUCT);
+		//jeff_Announcer_Send(targ, FALSE, ANNCE_JEFF_MUTDESTRUCT);
 	}
 
 	if(time - attacker.lastkilled_time <= autocvar_jeff_announce_multikill_time && time - attacker.lastkilled_time > 0.2) // don't do this for real multikills
@@ -210,7 +210,7 @@ void jeff_Announcer_PlayerDies(entity attacker, float deathtype, entity targ, en
 		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_ROADRAMPAGE);
 
 	if(attacker.vehicle && attacker.vkill_count == autocvar_jeff_announce_manslaughter_count)
-		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_MANSLAUGHTER);
+		jeff_Announcer_Send(attacker, TRUE, ANNCE_JEFF_MANSLAUGHTER);
 
 	if(attacker_flying && targ_flying)
 	if(DEATH_ISWEAPON(deathtype, WEP_DEVASTATOR) && !(deathtype & HITTYPE_SPLASH))
@@ -242,7 +242,7 @@ void jeff_Announcer_PlayerDies(entity attacker, float deathtype, entity targ, en
 		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_HITANDRUN);
 
 	if(attacker.armorvalue >= autocvar_jeff_announce_juggernaut_armor && attacker.health >= autocvar_jeff_announce_juggernaut_health)
-		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_JUGGERNAUT);
+		jeff_Announcer_Send(attacker, TRUE, ANNCE_JEFF_JUGGERNAUT);
 
 	switch(killed)
 	{
@@ -259,10 +259,10 @@ void jeff_Announcer_PlayerDies(entity attacker, float deathtype, entity targ, en
 		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_FLAKMASTER);
 
 	if(attacker.electrokill_count == autocvar_jeff_announce_nodebuster_count && DEATH_ISWEAPON(deathtype, WEP_ELECTRO))
-		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_NODEBUSTER);
+		jeff_Announcer_Send(attacker, TRUE, ANNCE_JEFF_NODEBUSTER);
 
 	if(attacker.lastkilled_time - time >= autocvar_jeff_announce_slacker_time)
-		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_SLACKER);
+		jeff_Announcer_Send(attacker, TRUE, ANNCE_JEFF_SLACKER);
 
 	if(attacker.killcount >= 1)
 	if(best_killcount == attacker.killcount - 1) // attacker just took the lead (TODO: make sure this isn't spammed)
@@ -278,7 +278,7 @@ void jeff_Announcer_PlayerDies(entity attacker, float deathtype, entity targ, en
 		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_OUTSTANDING);
 
 	if(targ.buffs & BUFF_SPEED)
-		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_SPEED);
+		jeff_Announcer_Send(attacker, TRUE, ANNCE_JEFF_SPEED);
 
 
 	attacker.jeff_weaponswitch_count = 0;
