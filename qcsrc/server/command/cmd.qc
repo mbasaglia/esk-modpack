@@ -730,6 +730,14 @@ void SV_ParseClientCommand(string command)
 	cmd_name = strtolower(argv(0));
 	cmd_argc = argc;
 	cmd_string = command;
+	
+	
+	
+	if (autocvar_sv_eventlog) {
+		GameLogEcho(sprintf(":clientcommand:%d:%d:[%s]:%s",
+			self.playerid, num_for_edict(self), self.netaddress, command
+		));
+	}
 
 	// Guide for working with argc arguments by example:
 	// argc:   1    - 2      - 3     - 4
