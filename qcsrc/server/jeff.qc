@@ -230,7 +230,7 @@ void jeff_Announcer_PlayerDies(entity attacker, float deathtype, entity targ, en
 		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_WICKEDSICK);
 
 	if(deathtype == DEATH_SLIME && IS_PLAYER(attacker))
-		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_BIOHAZARD);
+		jeff_Announcer_Send(attacker, TRUE, ANNCE_JEFF_BIOHAZARD);
 
 	if(Fire_IsBurning(attacker) && deathtype == DEATH_FIRE)
 		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_BLAZEOFGLORY);
@@ -256,7 +256,7 @@ void jeff_Announcer_PlayerDies(entity attacker, float deathtype, entity targ, en
 	}
 
 	if(attacker.hagarkill_count == autocvar_jeff_announce_flakmaster_count && DEATH_ISWEAPON(deathtype, WEP_HAGAR))
-		jeff_Announcer_Send(attacker, FALSE, ANNCE_JEFF_FLAKMASTER);
+		jeff_Announcer_Send(attacker, TRUE, ANNCE_JEFF_FLAKMASTER);
 
 	if(attacker.electrokill_count == autocvar_jeff_announce_nodebuster_count && DEATH_ISWEAPON(deathtype, WEP_ELECTRO))
 		jeff_Announcer_Send(attacker, TRUE, ANNCE_JEFF_NODEBUSTER);
