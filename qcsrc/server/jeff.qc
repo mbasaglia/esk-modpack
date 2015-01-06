@@ -282,6 +282,7 @@ void jeff_Announcer_PlayerDies(entity attacker, float deathtype, entity targ, en
 
 
 	attacker.jeff_weaponswitch_count = 0;
+	attacker.lastkilled_time = time;
 }
 
 void jeff_Announcer_MatchEnd()
