@@ -580,6 +580,7 @@ void Send_Notification_WOCOVA(
     MSG_INFO_NOTIF(1, INFO_WEAPON_HOOK_MURDER_GRAVITYBOMB,       3, 2, "spree_inf s1 s2 s3loc spree_end", "s2 s1",  "weaponhook",             _("^BG%s%s^K1 was caught in ^BG%s^K1's Hook gravity bomb%s%s"), "") \
     MSG_INFO_NOTIF(1, INFO_WEAPON_KLEINBOTTLE_MURDER,            3, 2, "spree_inf s1 s2 s3loc spree_end", "s2 s1",  "weapontuba",             _("^BG%s%s^K1 died of ^BG%s^K1's great playing on the @!#%%'n Klein Bottle%s%s"), "") \
     MSG_INFO_NOTIF(1, INFO_WEAPON_KLEINBOTTLE_SUICIDE,           2, 1, "s1 s2loc spree_lost", "s1",                 "weapontuba",             _("^BG%s^K1 hurt their own ears with the @!#%%'n Klein Bottle%s%s"), "") \
+    MSG_INFO_NOTIF(1, INFO_WEAPON_LIGHTSABRE_MURDER,             3, 2, "spree_inf s1 s2 s3loc spree_end", "s2 s1",  "weaponlightsabre",       _("^BG%s%s^K1's hand was zapped off by ^BG%s^K1's Lightsabre%s%s"), "") \
     MSG_INFO_NOTIF(1, INFO_WEAPON_MACHINEGUN_MURDER_SNIPE,       3, 2, "spree_inf s1 s2 s3loc spree_end", "s2 s1",  "weaponuzi",              _("^BG%s%s^K1 was sniped by ^BG%s^K1's Machine Gun%s%s"), "") \
     MSG_INFO_NOTIF(1, INFO_WEAPON_MACHINEGUN_MURDER_SPRAY,       3, 2, "spree_inf s1 s2 s3loc spree_end", "s2 s1",  "weaponuzi",              _("^BG%s%s^K1 was riddled full of holes by ^BG%s^K1's Machine Gun%s%s"), "") \
     MSG_INFO_NOTIF(1, INFO_WEAPON_MINELAYER_LIMIT,               0, 1, "f1", "",                                    "",                       _("^BGYou cannot place more than ^F2%s^BG mines at a time"), "") \
@@ -1004,6 +1005,7 @@ void Send_Notification_WOCOVA(
     MSG_MULTI_NOTIF(1, WEAPON_HOOK_MURDER_LASER,             NO_MSG,        INFO_WEAPON_HOOK_MURDER_LASER,             NO_MSG) \
     MSG_MULTI_NOTIF(1, WEAPON_KLEINBOTTLE_MURDER,            NO_MSG,        INFO_WEAPON_KLEINBOTTLE_MURDER,            NO_MSG) \
     MSG_MULTI_NOTIF(1, WEAPON_KLEINBOTTLE_SUICIDE,           NO_MSG,        INFO_WEAPON_KLEINBOTTLE_SUICIDE,           CENTER_DEATH_SELF_GENERIC) \
+    MSG_MULTI_NOTIF(1, WEAPON_LIGHTSABRE_MURDER,             NO_MSG,        INFO_WEAPON_LIGHTSABRE_MURDER,             NO_MSG) \
     MSG_MULTI_NOTIF(1, WEAPON_MACHINEGUN_MURDER_SNIPE,       NO_MSG,        INFO_WEAPON_MACHINEGUN_MURDER_SNIPE,       NO_MSG) \
     MSG_MULTI_NOTIF(1, WEAPON_MACHINEGUN_MURDER_SPRAY,       NO_MSG,        INFO_WEAPON_MACHINEGUN_MURDER_SPRAY,       NO_MSG) \
     MSG_MULTI_NOTIF(1, WEAPON_MINELAYER_LIMIT,               NO_MSG,        INFO_WEAPON_MINELAYER_LIMIT,               CENTER_WEAPON_MINELAYER_LIMIT) \
