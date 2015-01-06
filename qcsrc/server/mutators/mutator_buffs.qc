@@ -375,6 +375,9 @@ MUTATOR_HOOKFUNCTION(buffs_PlayerDamage_SplitHealthArmor)
 {
 	if(DEATH_ISBUFF(frag_deathtype)) { return FALSE; } // oh no you don't
 
+#ifdef CHAOS
+	if(!DEATH_ISWEAPON(frag_deathtype, WEP_LIGHTSABRE))
+#endif
 	if(frag_target.buffs & BUFF_RESISTANCE)
 	{
 		vector v = healtharmor_applydamage(50, autocvar_g_buffs_resistance_blockpercent, frag_deathtype, frag_damage, autocvar_g_balance_armor_block_bycount);
