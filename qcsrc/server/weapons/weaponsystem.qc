@@ -450,7 +450,6 @@ void w_ready()
 float weapon_prepareattack_checkammo(float secondary)
 {
 	if (!(self.items & IT_UNLIMITED_WEAPON_AMMO))
-	if (self.ammo_field != ammo_none)
 	if (!WEP_ACTION(self.weapon, WR_CHECKAMMO1 + secondary))
 	{
 		// always keep the Mine Layer if we placed mines, so that we can detonate them
@@ -692,7 +691,7 @@ void W_WeaponFrame()
 			self.weapon = self.switchweapon;
 			self.weaponname = newwep.mdl;
 			self.bulletcounter = 0;
-			//self.ammo_field = newwep.ammo_field;
+			self.ammo_field = newwep.ammo_field;
 			WEP_ACTION(self.switchweapon, WR_SETUP);
 			self.weaponentity.state = WS_RAISE;
 
@@ -865,11 +864,10 @@ void W_ReloadedAndReady()
 		self.clip_load = self.reload_ammo_amount;
 	else
 	{
-		while(self.clip_load < self.reload_ammo_amount && self.(self.ammo_field)) // make sure we don't add more ammo than we have
-		{
-			self.clip_load += 1;
-			self.(self.ammo_field) -= 1;
-		}
+		// make sure we don't add more ammo than we have
+		float load = min(self.reload_ammo_amount - self.clip_load, self.(self.ammo_field));
+        self.clip_load += load;
+        self.(self.ammo_field) -= load;
 	}
 	self.(weapon_load[self.weapon]) = self.clip_load;
 
@@ -893,7 +891,7 @@ void W_Reload(float sent_ammo_min, string sent_sound)
 		return; // TODO
 
 	self.reload_ammo_min = sent_ammo_min;
-	self.reload_ammo_amount = e.reloading_ammo;;
+	self.reload_ammo_amount = e.reloading_ammo;
 	self.reload_time = e.reloading_time;
 	self.reload_sound = sent_sound;
 
