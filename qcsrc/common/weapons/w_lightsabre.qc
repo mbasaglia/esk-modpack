@@ -51,6 +51,39 @@ void spawnfunc_weapon_lightsabre(void) { weapon_defaultspawnfunc(WEP_LIGHTSABRE)
 
 .float swing_prev;
 .entity swing_alreadyhit;
+
+float W_Lightsabre_Melee_Block(entity player)
+{
+	if(!IS_PLAYER(player)) { return FALSE; }
+
+	entity player_melee = world, e;
+	entity myowner = self.realowner;
+
+	for(e = world; (e = find(e, classname, "melee_temp")); )
+	if(e.realowner == player)
+	{
+		player_melee = e;
+		break;
+	}
+
+	if(!player_melee) { return FALSE; }
+
+	makevectors (player.v_angle);
+	float dot = normalize (myowner.origin - player.origin) * v_forward;
+
+	if(dot <= 0.3) { return FALSE; }
+
+	//if((myowner.v_angle_x - player.v_angle_x < 70) && (myowner.v_angle_x - player.v_angle_x > -70)) //Look up and down
+	//if((myowner.v_angle_y - player.v_angle_y > 160) || (myowner.v_angle_y - player.v_angle_y < -160)) //Side to side Facing eachother
+		// fun stuff
+
+	animdecide_setaction(myowner, ANIMACTION_SHOOT, 1);
+	string thesound = strcat("lightsabre_hit", ftos(max(1, floor(random() * 4))));
+	sound(myowner, CH_WEAPON_A, W_Sound(thesound), VOL_BASE, ATTEN_NORM);
+
+	return TRUE;
+}
+
 void W_Lightsabre_Melee_Think(void)
 {
 	// declarations
@@ -106,23 +139,26 @@ void W_Lightsabre_Melee_Think(void)
 		{
 			target_victim = trace_ent; // so it persists through other calls
 
-			if(is_player) // this allows us to be able to nerf the non-player damage done in e.g. assault or onslaught.
-				swing_damage = (WEP_CVAR_BOTH(lightsabre, isprimary, damage) * min(1, swing_factor + 1));
-			else
-				swing_damage = (WEP_CVAR_BOTH(lightsabre, isprimary, melee_nonplayerdamage) * min(1, swing_factor + 1));
+			if(!W_Lightsabre_Melee_Block(trace_ent))
+			{
+				if(is_player) // this allows us to be able to nerf the non-player damage done in e.g. assault or onslaught.
+					swing_damage = (WEP_CVAR_BOTH(lightsabre, isprimary, damage) * min(1, swing_factor + 1));
+				else
+					swing_damage = (WEP_CVAR_BOTH(lightsabre, isprimary, melee_nonplayerdamage) * min(1, swing_factor + 1));
 
-			//print(strcat(self.realowner.netname, " hitting ", target_victim.netname, " with ", strcat(ftos(swing_damage), " damage (factor: ", ftos(swing_factor), ") at "), ftos(time), " seconds.\n"));
+				//print(strcat(self.realowner.netname, " hitting ", target_victim.netname, " with ", strcat(ftos(swing_damage), " damage (factor: ", ftos(swing_factor), ") at "), ftos(time), " seconds.\n"));
 
-			Damage(target_victim, self.realowner, self.realowner,
-				swing_damage, deathtype,
-				self.realowner.origin + self.realowner.view_ofs,
-				v_forward * WEP_CVAR_BOTH(lightsabre, isprimary, force));
+				Damage(target_victim, self.realowner, self.realowner,
+					swing_damage, deathtype,
+					self.realowner.origin + self.realowner.view_ofs,
+					v_forward * WEP_CVAR_BOTH(lightsabre, isprimary, force));
 
-			string thesound = strcat("lightsabre_hit", ftos(max(1, floor(random() * 4))));
+				string thesound = strcat("lightsabre_hit", ftos(max(1, floor(random() * 4))));
 
-			sound(self.realowner, CH_WEAPON_A, W_Sound(thesound), VOL_BASE, ATTEN_NORM);
+				sound(self.realowner, CH_WEAPON_A, W_Sound(thesound), VOL_BASE, ATTEN_NORM);
 
-			if(accuracy_isgooddamage(self.realowner, target_victim)) { accuracy_add(self.realowner, WEP_LIGHTSABRE, 0, swing_damage); }
+				if(accuracy_isgooddamage(self.realowner, target_victim)) { accuracy_add(self.realowner, WEP_LIGHTSABRE, 0, swing_damage); }
+			}
 
 			// draw large red flash for debugging
 			//te_customflash(targpos, 200, 2, '15 0 0');
@@ -163,6 +199,7 @@ void W_Lightsabre_Attack(void)
 
 	entity meleetemp;
 	meleetemp = spawn();
+	meleetemp.classname = "melee_temp";
 	meleetemp.realowner = self;
 	meleetemp.think = W_Lightsabre_Melee_Think;
 	meleetemp.nextthink = time + WEP_CVAR_BOTH(lightsabre, isprimary, melee_delay) * W_WeaponRateFactor();
