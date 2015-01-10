@@ -567,9 +567,9 @@ float W_Devastator(float req)
 			//if(autocvar_sv_precacheweapons)
 			//{
 				precache_model("models/flash.md3");
-				precache_model("models/weapons/g_rl.md3");
-				precache_model("models/weapons/v_rl.md3");
-				precache_model("models/weapons/h_rl.iqm");
+				precache_model(W_Model("g_rl.md3"));
+				precache_model(W_Model("v_rl.md3"));
+				precache_model(W_Model("h_rl.iqm"));
 				precache_sound(W_Sound("rocket_det"));
 				precache_sound(W_Sound("rocket_fire"));
 				precache_sound(W_Sound("rocket_mode"));

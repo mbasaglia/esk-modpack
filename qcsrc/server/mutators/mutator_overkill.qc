@@ -347,17 +347,15 @@ void ok_Initialize()
 
 	precache_all_playermodels("models/ok_player/*.dpm");
 
-	precache_model("models/weapons/h_ok_mg.iqm");
-	precache_model("models/weapons/v_ok_mg.md3");
-	precache_model("models/weapons/g_ok_mg.md3");
-
-	precache_model("models/weapons/h_ok_shotgun.iqm");
-	precache_model("models/weapons/v_ok_shotgun.md3");
-	precache_model("models/weapons/g_ok_shotgun.md3");
-
-	precache_model("models/weapons/h_ok_sniper.iqm");
-	precache_model("models/weapons/v_ok_sniper.md3");
-	precache_model("models/weapons/g_ok_sniper.md3");
+	precache_model(W_Model("g_ok_mg.md3"));
+	precache_model(W_Model("v_ok_mg.md3"));
+	precache_model(W_Model("h_ok_mg.iqm"));
+	precache_model(W_Model("g_ok_shotgun.md3"));
+	precache_model(W_Model("v_ok_shotgun.md3"));
+	precache_model(W_Model("h_ok_shotgun.iqm"));
+	precache_model(W_Model("g_ok_sniper.md3"));
+	precache_model(W_Model("v_ok_sniper.md3"));
+	precache_model(W_Model("h_ok_sniper.iqm"));
 
 	precache_sound(W_Sound("dryfire"));
 

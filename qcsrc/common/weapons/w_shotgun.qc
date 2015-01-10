@@ -285,9 +285,9 @@ float W_Shotgun(float req)
 		case WR_INIT:
 		{
 			precache_model("models/uziflash.md3");
-			precache_model("models/weapons/g_shotgun.md3");
-			precache_model("models/weapons/v_shotgun.md3");
-			precache_model("models/weapons/h_shotgun.iqm");
+			precache_model(W_Model("g_shotgun.md3"));
+			precache_model(W_Model("v_shotgun.md3"));
+			precache_model(W_Model("h_shotgun.iqm"));
 			precache_sound("misc/itempickup.wav");
 			precache_sound(W_Sound("shotgun_fire"));
 			precache_sound(W_Sound("shotgun_melee"));

@@ -146,11 +146,11 @@ float W_Revolver(float req)
 		case WR_INIT:
 		{
 			precache_model("models/uziflash.md3");
-			precache_model("models/weapons/g_revolver.md3");
-			precache_model("models/weapons/v_revolver.md3");
-			precache_model("models/weapons/h_revolver.iqm");
-			precache_model("models/weapons/v_revolver-cocked.md3");
-			precache_model("models/weapons/h_revolver-cocked.iqm");
+			precache_model(W_Model("g_revolver.md3"));
+			precache_model(W_Model("v_revolver.md3"));
+			precache_model(W_Model("h_revolver.iqm"));
+			precache_model(W_Model("v_revolver-cocked.md3"));
+			precache_model(W_Model("h_revolver-cocked.iqm"));
 			precache_sound("misc/itempickup.wav");
 			precache_sound(W_Sound("revolver_fire"));
 			REVOLVER_SETTINGS(WEP_SKIP_CVAR, WEP_SET_PROP)

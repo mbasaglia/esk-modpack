@@ -304,9 +304,9 @@ float W_MachineGun(float req)
 		case WR_INIT:
 		{
 			precache_model("models/uziflash.md3");
-			precache_model("models/weapons/g_uzi.md3");
-			precache_model("models/weapons/v_uzi.md3");
-			precache_model("models/weapons/h_uzi.iqm");
+			precache_model(W_Model("g_uzi.md3"));
+			precache_model(W_Model("v_uzi.md3"));
+			precache_model(W_Model("h_uzi.iqm"));
 			precache_sound(W_Sound("uzi_fire"));
 			MACHINEGUN_SETTINGS(WEP_SKIP_CVAR, WEP_SET_PROP)
 			return TRUE;

@@ -798,9 +798,9 @@ float W_Vaporizer(float req)
 		case WR_INIT:
 		{
 			precache_model("models/nexflash.md3");
-			precache_model("models/weapons/g_minstanex.md3");
-			precache_model("models/weapons/v_minstanex.md3");
-			precache_model("models/weapons/h_minstanex.iqm");
+			precache_model(W_Model("g_minstanex.md3"));
+			precache_model(W_Model("v_minstanex.md3"));
+			precache_model(W_Model("h_minstanex.iqm"));
 			precache_sound (W_Sound("minstanex_charge_new"));
 			precache_sound (W_Sound("minstanex_charge2"));
 			precache_sound(W_Sound("minstanexfire"));

@@ -445,9 +445,9 @@ float W_Hagar(float req)
 		}
 		case WR_INIT:
 		{
-			precache_model("models/weapons/g_hagar.md3");
-			precache_model("models/weapons/v_hagar.md3");
-			precache_model("models/weapons/h_hagar.iqm");
+			precache_model(W_Model("g_hagar.md3"));
+			precache_model(W_Model("v_hagar.md3"));
+			precache_model(W_Model("h_hagar.iqm"));
 			precache_sound(W_Sound("hagar_fire"));
 			precache_sound(W_Sound("hagar_load"));
 			precache_sound(W_Sound("hagar_beep"));

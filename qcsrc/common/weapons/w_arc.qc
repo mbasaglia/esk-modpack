@@ -720,9 +720,9 @@ float W_Arc(float req)
 		}
 		case WR_INIT:
 		{
-			precache_model("models/weapons/g_arc.md3");
-			precache_model("models/weapons/v_arc.md3");
-			precache_model("models/weapons/h_arc.iqm");
+			precache_model(W_Model("g_arc.md3"));
+			precache_model(W_Model("v_arc.md3"));
+			precache_model(W_Model("h_arc.iqm"));
 			precache_sound("weapons/arc_fire.wav");
 			precache_sound("weapons/arc_loop.wav");
 			precache_sound("weapons/arc_stop.wav");

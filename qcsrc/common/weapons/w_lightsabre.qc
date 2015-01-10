@@ -258,11 +258,11 @@ float W_Lightsabre(float req)
 		case WR_INIT:
 		{
 			precache_model("models/uziflash.md3");
-			precache_model("models/weapons/g_lightsabre.md3");
-			precache_model("models/weapons/v_lightsabre.md3");
-			precache_model("models/weapons/v_lightsabre_active.md3");
-			precache_model("models/weapons/h_lightsabre.iqm");
-			precache_model("models/weapons/h_lightsabre_active.iqm");
+			precache_model(W_Model("g_lightsabre.md3"));
+			precache_model(W_Model("v_lightsabre.md3"));
+			precache_model(W_Model("h_lightsabre.iqm"));
+			precache_model(W_Model("v_lightsabre_active.md3"));
+			precache_model(W_Model("h_lightsabre_active.iqm"));
 			precache_sound("misc/itempickup.wav");
 			precache_sound(W_Sound("lightsabre_melee1"));
 			precache_sound(W_Sound("lightsabre_melee2"));

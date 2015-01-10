@@ -1047,3 +1047,4 @@ float autocvar_g_itemeditor_readonly;
 float autocvar_g_itemeditor_max;
 float autocvar_g_itemeditor_debug;
 var string autocvar_g_itemeditor_storage_name = "default";
+string autocvar_sv_weapons_modeloverride;

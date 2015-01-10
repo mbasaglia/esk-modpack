@@ -182,9 +182,9 @@ float W_RocketPropelledChainsaw(float req)
 		case WR_INIT:
 		{
 			precache_model ("models/flash.md3");
-			precache_model("models/weapons/h_ok_rl.iqm");
-			precache_model("models/weapons/v_ok_rl.md3");
-			precache_model("models/weapons/g_ok_rl.md3");
+			precache_model(W_Model("g_ok_rl.md3"));
+			precache_model(W_Model("v_ok_rl.md3"));
+			precache_model(W_Model("h_ok_rl.iqm"));
 			precache_sound (W_Sound("rocket_fire"));
 			RPC_SETTINGS(WEP_SKIP_CVAR, WEP_SET_PROP)
 			return TRUE;

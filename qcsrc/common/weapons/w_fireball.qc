@@ -397,9 +397,9 @@ float W_Fireball(float req)
 		}
 		case WR_INIT:
 		{
-			precache_model("models/weapons/g_fireball.md3");
-			precache_model("models/weapons/v_fireball.md3");
-			precache_model("models/weapons/h_fireball.iqm");
+			precache_model(W_Model("g_fireball.md3"));
+			precache_model(W_Model("v_fireball.md3"));
+			precache_model(W_Model("h_fireball.iqm"));
 			precache_model("models/sphere/sphere.md3");
 			precache_sound(W_Sound("fireball_fire"));
 			precache_sound(W_Sound("fireball_fire2"));

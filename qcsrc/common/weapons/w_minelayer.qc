@@ -535,9 +535,9 @@ float W_MineLayer(float req)
 		{
 			precache_model("models/flash.md3");
 			precache_model("models/mine.md3");
-			precache_model("models/weapons/g_minelayer.md3");
-			precache_model("models/weapons/v_minelayer.md3");
-			precache_model("models/weapons/h_minelayer.iqm");
+			precache_model(W_Model("g_minelayer.md3"));
+			precache_model(W_Model("v_minelayer.md3"));
+			precache_model(W_Model("h_minelayer.iqm"));
 			precache_sound(W_Sound("mine_det"));
 			precache_sound(W_Sound("mine_fire"));
 			precache_sound(W_Sound("mine_stick"));
