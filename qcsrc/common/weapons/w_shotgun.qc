@@ -118,7 +118,7 @@ void W_Shotgun_Melee_Think(void)
 			+ (v_up * swing_factor * WEP_CVAR_SEC(shotgun, melee_swing_up))
 			+ (v_right * swing_factor * WEP_CVAR_SEC(shotgun, melee_swing_side)));
 
-		WarpZone_traceline_antilag(self, self.realowner.origin + self.realowner.view_ofs, targpos, FALSE, self, ANTILAG_LATENCY(self.realowner));
+		WarpZone_traceline_antilag(self, self.realowner.origin + self.realowner.view_ofs, targpos, FALSE, self.realowner, ANTILAG_LATENCY(self.realowner));
 
 		// draw lightning beams for debugging
 		//te_lightning2(world, targpos, self.realowner.origin + self.realowner.view_ofs + v_forward * 5 - v_up * 5);
@@ -285,9 +285,9 @@ float W_Shotgun(float req)
 		case WR_INIT:
 		{
 			precache_model("models/uziflash.md3");
-			precache_model("models/weapons/g_shotgun.md3");
-			precache_model("models/weapons/v_shotgun.md3");
-			precache_model("models/weapons/h_shotgun.iqm");
+			precache_model(W_Model("g_shotgun.md3"));
+			precache_model(W_Model("v_shotgun.md3"));
+			precache_model(W_Model("h_shotgun.iqm"));
 			precache_sound("misc/itempickup.wav");
 			precache_sound(W_Sound("shotgun_fire"));
 			precache_sound(W_Sound("shotgun_melee"));

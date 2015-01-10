@@ -203,9 +203,9 @@ float W_Rifle(float req)
 		}
 		case WR_INIT:
 		{
-			precache_model("models/weapons/g_sniperrifle.md3");
-			precache_model("models/weapons/v_sniperrifle.md3");
-			precache_model("models/weapons/h_sniperrifle.iqm");
+			precache_model(W_Model("g_sniperrifle.md3"));
+			precache_model(W_Model("v_sniperrifle.md3"));
+			precache_model(W_Model("h_sniperrifle.iqm"));
 			precache_sound(W_Sound("campingrifle_fire"));
 			precache_sound(W_Sound("campingrifle_fire2"));
 			RIFLE_SETTINGS(WEP_SKIP_CVAR, WEP_SET_PROP)

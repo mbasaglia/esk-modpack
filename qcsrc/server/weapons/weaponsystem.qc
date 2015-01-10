@@ -99,12 +99,12 @@ void CL_WeaponEntity_SetModel(string name)
 		// if there is a child entity, hide it until we're sure we use it
 		if (self.weaponentity)
 			self.weaponentity.model = "";
-		setmodel(self, strcat("models/weapons/v_", name, ".md3")); // precision set below
+		setmodel(self, W_Model(strcat("v_", name, ".md3")));
 		v_shot_idx = gettagindex(self, "shot"); // used later
 		if(!v_shot_idx)
 			v_shot_idx = gettagindex(self, "tag_shot");
 
-		setmodel(self, strcat("models/weapons/h_", name, ".iqm")); // precision set below
+		setmodel(self, W_Model(strcat("h_", name, ".iqm")));
 		// preset some defaults that work great for renamed zym files (which don't need an animinfo)
 		self.anim_fire1  = animfixfps(self, '0 1 0.01', '0 0 0');
 		self.anim_fire2  = animfixfps(self, '1 1 0.01', '0 0 0');
@@ -117,14 +117,14 @@ void CL_WeaponEntity_SetModel(string name)
 		{
 			if (!self.weaponentity)
 				self.weaponentity = spawn();
-			setmodel(self.weaponentity, strcat("models/weapons/v_", name, ".md3")); // precision does not matter
+			setmodel(self.weaponentity, W_Model(strcat("v_", name, ".md3")));
 			setattachment(self.weaponentity, self, "weapon");
 		}
 		else if(gettagindex(self, "tag_weapon"))
 		{
 			if (!self.weaponentity)
 				self.weaponentity = spawn();
-			setmodel(self.weaponentity, strcat("models/weapons/v_", name, ".md3")); // precision does not matter
+			setmodel(self.weaponentity, W_Model(strcat("v_", name, ".md3")));
 			setattachment(self.weaponentity, self, "tag_weapon");
 		}
 		else
@@ -361,7 +361,7 @@ void CL_ExteriorWeaponentity_Think()
 		self.dmg = self.owner.modelindex;
 		self.deadflag = self.owner.deadflag;
 		if (self.owner.weaponname != "")
-			setmodel(self, strcat("models/weapons/v_", self.owner.weaponname, ".md3")); // precision set below
+			setmodel(self, W_Model(strcat("v_", self.owner.weaponname, ".md3")));
 		else
 			self.model = "";
 
@@ -450,7 +450,6 @@ void w_ready()
 float weapon_prepareattack_checkammo(float secondary)
 {
 	if (!(self.items & IT_UNLIMITED_WEAPON_AMMO))
-	if (self.ammo_field != ammo_none)
 	if (!WEP_ACTION(self.weapon, WR_CHECKAMMO1 + secondary))
 	{
 		// always keep the Mine Layer if we placed mines, so that we can detonate them
@@ -620,7 +619,7 @@ void weapon_thinkf(float fr, float t, void() func)
 
 	if((fr == WFRAME_FIRE1 || fr == WFRAME_FIRE2) && t)
 	{
-		if((self.weapon == WEP_SHOCKWAVE || self.weapon == WEP_SHOTGUN) && fr == WFRAME_FIRE2)
+		if(((self.weapon == WEP_SHOCKWAVE || self.weapon == WEP_SHOTGUN) && fr == WFRAME_FIRE2) || self.weapon == WEP_LIGHTSABRE)
 			animdecide_setaction(self, ANIMACTION_MELEE, restartanim);
 		else
 			animdecide_setaction(self, ANIMACTION_SHOOT, restartanim);
@@ -692,7 +691,7 @@ void W_WeaponFrame()
 			self.weapon = self.switchweapon;
 			self.weaponname = newwep.mdl;
 			self.bulletcounter = 0;
-			//self.ammo_field = newwep.ammo_field;
+			self.ammo_field = newwep.ammo_field;
 			WEP_ACTION(self.switchweapon, WR_SETUP);
 			self.weaponentity.state = WS_RAISE;
 
@@ -865,11 +864,10 @@ void W_ReloadedAndReady()
 		self.clip_load = self.reload_ammo_amount;
 	else
 	{
-		while(self.clip_load < self.reload_ammo_amount && self.(self.ammo_field)) // make sure we don't add more ammo than we have
-		{
-			self.clip_load += 1;
-			self.(self.ammo_field) -= 1;
-		}
+		// make sure we don't add more ammo than we have
+		float load = min(self.reload_ammo_amount - self.clip_load, self.(self.ammo_field));
+        self.clip_load += load;
+        self.(self.ammo_field) -= load;
 	}
 	self.(weapon_load[self.weapon]) = self.clip_load;
 
@@ -893,7 +891,7 @@ void W_Reload(float sent_ammo_min, string sent_sound)
 		return; // TODO
 
 	self.reload_ammo_min = sent_ammo_min;
-	self.reload_ammo_amount = e.reloading_ammo;;
+	self.reload_ammo_amount = e.reloading_ammo;
 	self.reload_time = e.reloading_time;
 	self.reload_sound = sent_sound;
 

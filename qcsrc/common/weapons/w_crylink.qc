@@ -637,9 +637,9 @@ float W_Crylink(float req)
 		}
 		case WR_INIT:
 		{
-			precache_model("models/weapons/g_crylink.md3");
-			precache_model("models/weapons/v_crylink.md3");
-			precache_model("models/weapons/h_crylink.iqm");
+			precache_model(W_Model("g_crylink.md3"));
+			precache_model(W_Model("v_crylink.md3"));
+			precache_model(W_Model("h_crylink.iqm"));
 			precache_sound(W_Sound("crylink_fire"));
 			precache_sound(W_Sound("crylink_fire2"));
 			precache_sound(W_Sound("crylink_linkjoin"));

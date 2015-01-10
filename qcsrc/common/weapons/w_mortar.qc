@@ -404,9 +404,9 @@ float W_Mortar(float req)
 		}
 		case WR_INIT:
 		{
-			precache_model("models/weapons/g_gl.md3");
-			precache_model("models/weapons/v_gl.md3");
-			precache_model("models/weapons/h_gl.iqm");
+			precache_model(W_Model("g_gl.md3"));
+			precache_model(W_Model("v_gl.md3"));
+			precache_model(W_Model("h_gl.iqm"));
 			precache_sound(W_Sound("grenade_bounce1"));
 			precache_sound(W_Sound("grenade_bounce2"));
 			precache_sound(W_Sound("grenade_bounce3"));

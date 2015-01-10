@@ -173,7 +173,7 @@ float Headshot(entity targ, entity ent, vector hitloc, vector start, vector end)
 {
 	if(!autocvar_sv_headshot)
 		return FALSE;
-	if(ent.weapon != WEP_RIFLE && ent.weapon != WEP_VAPORIZER && ent.weapon != WEP_VORTEX)
+	if(ent.weapon != WEP_RIFLE && ent.weapon != WEP_VAPORIZER && ent.weapon != WEP_VORTEX && ent.weapon != WEP_REVOLVER)
 		return FALSE;
 	if(!IS_PLAYER(targ))
 		return FALSE;

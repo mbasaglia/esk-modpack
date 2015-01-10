@@ -240,9 +240,9 @@ float W_HLAC(float req)
 		}
 		case WR_INIT:
 		{
-			precache_model("models/weapons/g_hlac.md3");
-			precache_model("models/weapons/v_hlac.md3");
-			precache_model("models/weapons/h_hlac.iqm");
+			precache_model(W_Model("g_hlac.md3"));
+			precache_model(W_Model("v_hlac.md3"));
+			precache_model(W_Model("h_hlac.iqm"));
 			precache_sound(W_Sound("lasergun_fire"));
 			HLAC_SETTINGS(WEP_SKIP_CVAR, WEP_SET_PROP)
 			return TRUE;

@@ -84,6 +84,7 @@ float GetAmmoStat(.float ammotype);
 
 #ifdef SVQC
 string W_Sound(string w_snd);
+string W_Model(string w_mdl);
 #endif
 
 // ammo types

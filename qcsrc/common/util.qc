@@ -1841,6 +1841,10 @@ vector healtharmor_maxdamage(float h, float a, float armorblock, float deathtype
 	float healthdamage, armordamage, armorideal;
 	if (deathtype == DEATH_DROWN)  // Why should armor help here...
 		armorblock = 0;
+#ifdef CHAOS
+	if(DEATH_ISWEAPON(deathtype, WEP_LIGHTSABRE))
+		armorblock = 0; // unique ability
+#endif
 	vector v;
 	healthdamage = (h - 1) / (1 - armorblock); // damage we can take if we could use more health
 	armordamage = a + (h - 1); // damage we can take if we could use more armor

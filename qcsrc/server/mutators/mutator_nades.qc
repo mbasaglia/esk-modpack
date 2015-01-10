@@ -736,6 +736,7 @@ void nades_GiveBonus(entity player, float score)
 		if ( player.bonus_nade_score >= 1 )
 		{
 			Send_Notification(NOTIF_ONE, player, MSG_CENTER, CENTER_NADE_BONUS);
+			Send_Notification(NOTIF_ONE, player, MSG_ANNCE, ANNCE_BONUSNADE);
 			play2(player,"kh/alarm.wav");
 			player.bonus_nades++;
 			player.bonus_nade_score -= 1;

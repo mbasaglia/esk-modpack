@@ -662,9 +662,9 @@ float W_Seeker(float req)
 		}
 		case WR_INIT:
 		{
-			precache_model("models/weapons/g_seeker.md3");
-			precache_model("models/weapons/v_seeker.md3");
-			precache_model("models/weapons/h_seeker.iqm");
+			precache_model(W_Model("g_seeker.md3"));
+			precache_model(W_Model("v_seeker.md3"));
+			precache_model(W_Model("h_seeker.iqm"));
 			precache_sound(W_Sound("tag_fire"));
 			precache_sound(W_Sound("flac_fire"));
 			precache_sound(W_Sound("seeker_fire"));

@@ -552,9 +552,9 @@ float W_Electro(float req)
 		}
 		case WR_INIT:
 		{
-			precache_model("models/weapons/g_electro.md3");
-			precache_model("models/weapons/v_electro.md3");
-			precache_model("models/weapons/h_electro.iqm");
+			precache_model(W_Model("g_electro.md3"));
+			precache_model(W_Model("v_electro.md3"));
+			precache_model(W_Model("h_electro.iqm"));
 			precache_sound(W_Sound("electro_bounce"));
 			precache_sound(W_Sound("electro_fire"));
 			precache_sound(W_Sound("electro_fire2"));

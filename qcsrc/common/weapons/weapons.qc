@@ -125,7 +125,11 @@ void register_weapon(
 	e.wpcolor = clr;
 	e.wpmodel = strzone(strcat("wpn-", ftos(id)));
 	e.mdl = modelname;
+#ifdef CSQC
 	e.model = strzone(strcat("models/weapons/g_", modelname, ".md3"));
+#elif defined(SVQC)
+	e.model = strzone(W_Model(strcat("g_", modelname, ".md3")));
+#endif
 	e.w_simplemdl = strzone(simplemdl); // simpleitems weapon model/image
 	e.w_crosshair = strzone(car(crosshair));
 	string s = cdr(crosshair);
@@ -351,5 +355,16 @@ string W_Sound(string w_snd)
 	// TODO: CSQC?
 	if(cvar_string("sv_weapons_sounddir") == "" || !cvar_type("sv_weapons_sounddir")) { return strcat("weapons/", w_snd, ".wav"); }
 	return sprintf("weapons_%s/%s.wav", cvar_string("sv_weapons_sounddir"), w_snd);
+}
+
+string W_Model(string w_mdl)
+{
+	if(autocvar_sv_weapons_modeloverride != "" && autocvar_sv_weapons_modeloverride != "default")
+	{
+		string themdl = sprintf("models/weapons_%s/%s", autocvar_sv_weapons_modeloverride, w_mdl);
+		if(fexists(themdl))
+			return themdl;
+	}
+	return strcat("models/weapons/", w_mdl);
 }
 #endif
