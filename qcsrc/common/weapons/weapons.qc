@@ -352,9 +352,17 @@ float GetAmmoStat(.float ammotype)
 #ifdef SVQC
 string W_Sound(string w_snd)
 {
-	// TODO: CSQC?
-	if(cvar_string("sv_weapons_sounddir") == "" || !cvar_type("sv_weapons_sounddir")) { return strcat("weapons/", w_snd, ".wav"); }
-	return sprintf("weapons_%s/%s.wav", cvar_string("sv_weapons_sounddir"), w_snd);
+	if(autocvar_sv_weapons_sounddir != "" && autocvar_sv_weapons_sounddir != "default")
+	{
+		string thesnd = sprintf("weapons_%s/%s", autocvar_sv_weapons_sounddir, w_snd);
+		float globhandle = search_begin(strcat("sound/", thesnd, ".*"), TRUE, FALSE);
+		if(globhandle >= 0)
+		{
+			search_end(globhandle);
+			return strcat(thesnd, ".wav");
+		}
+	}
+	return strcat("weapons/", w_snd, ".wav");
 }
 
 string W_Model(string w_mdl)
