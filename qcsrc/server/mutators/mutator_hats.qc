@@ -58,7 +58,7 @@ void hat_Think()
 		remove(self);
 		return;
 	}
-	if (self.owner.deadflag != DEAD_NO || self.owner.jb_isprisoned || self.owner.frozen)
+	if(Player_Trapped(self.owner))
 	{
 		self.model = "";
 		return;

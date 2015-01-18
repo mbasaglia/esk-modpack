@@ -3,6 +3,18 @@ void objerror(string s);
 void droptofloor();
 .vector dropped_origin;
 
+float Player_Trapped(entity player)
+{
+	// 0: free, 1: confined, but free movement, 2: confined and unable to move
+	if(player.frozen)
+		return 2;
+	if(player.deadflag != DEAD_NO)
+		return 2; // technically speaking, player is kinda trapped in limbo (TODO: make sure checking this doesn't break anything)
+	if(player.jb_isprisoned)
+		return 1;
+	return 0;
+}
+
 float checkinlist(string command, string list)
 {
 	string l = strcat(" ", list, " ");

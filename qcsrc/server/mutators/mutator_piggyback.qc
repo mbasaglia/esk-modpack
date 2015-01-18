@@ -127,9 +127,8 @@ MUTATOR_HOOKFUNCTION(pb_PlayerUseKey)
 		return TRUE;
 	}
 
-	if(!self.frozen)
-	if(self.deadflag == DEAD_NO)
 	if(!self.vehicle)
+	if(!Player_Trapped(self))
 	{
 		entity head, closest_target = world;
 
@@ -140,10 +139,9 @@ MUTATOR_HOOKFUNCTION(pb_PlayerUseKey)
 			if(SAME_TEAM(head, self) || autocvar_g_piggyback_ride_enemies || (IS_MONSTER(head) && head.realowner == self))
 			if(head != self)
 			if(!head.cvar_cl_nocarry)
-			if(head.deadflag == DEAD_NO)
+			if(head.deadflag == DEAD_NO) // we check for trapped status here, but better to be safe than sorry, considering the madness happening
 			if(!head.vehicle)
-			if(!head.frozen)
-			if((!head.jb_isprisoned && !self.jb_isprisoned) || (head.jb_isprisoned && self.jb_isprisoned))
+			if((!Player_Trapped(head) && !Player_Trapped(self)) || (Player_Trapped(head) || Player_Trapped(self)))
 			{
 				if(closest_target)
 				{

@@ -233,13 +233,9 @@ void W_Arc_Beam_Think(void)
 		||
 		(self.owner.WEP_AMMO(ARC) <= 0 && !(self.owner.items & IT_UNLIMITED_WEAPON_AMMO))
 		||
-		self.owner.deadflag != DEAD_NO
+		Player_Trapped(self.owner)
 		||
 		(!self.owner.BUTTON_ATCK && !burst )
-		||
-		self.owner.jb_isprisoned
-		||
-		self.owner.frozen
 		||
 		(WEP_CVAR(arc, overheat_max) > 0 && self.beam_heat >= WEP_CVAR(arc, overheat_max))
 	)
