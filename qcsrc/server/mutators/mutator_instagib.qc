@@ -4,7 +4,7 @@ void spawnfunc_item_minst_cells (void)
 	if (!self.ammo_cells)
 		self.ammo_cells = autocvar_g_instagib_ammo_drop;
 
-	StartItem ("models/items/a_cells.md3",
+	StartItem (Item_Model("a_cells.md3"),
 			   "misc/itempickup.wav", 45, 0,
 			   "Vaporizer Ammo", IT_CELLS, 0, 0, generic_pickupevalfunc, 100);
 }
@@ -16,7 +16,7 @@ void spawnfunc_item_minst_rockets (void)
 	if (!self.ammo_rockets)
 		self.ammo_rockets = autocvar_g_instagib_ammo_rockets;
 
-	StartItem ("models/items/a_rockets.md3",
+	StartItem (Item_Model("a_rockets.md3"),
 			   "misc/itempickup.wav", 45, 0,
 			   "Vaporizer Ammo", IT_ROCKETS, 0, 0, generic_pickupevalfunc, 100);
 }
@@ -27,7 +27,7 @@ void instagib_item_supercells()
 	if(!self.ammo_supercells)
 		self.ammo_supercells = 2;
 
-	StartItem ("models/items/a_supercells.md3",
+	StartItem (Item_Model("a_supercells.md3"),
 			   "misc/itempickup.wav", 45, 0,
 			   "supercells", IT_SUPERCELLS, 0, 0, generic_pickupevalfunc, 100);
 }
@@ -35,7 +35,7 @@ void instagib_item_supercells()
 void instagib_health_mega()
 {
 	self.max_health = 1;
-	StartItem ("models/items/g_h100.md3",
+	StartItem (Item_Model("g_h100.md3"),
 			   "misc/megahealth.wav", g_pickup_respawntime_powerup, g_pickup_respawntimejitter_powerup,
 			   "Extralife", IT_NAILS, 0, FL_POWERUP, generic_pickupevalfunc, BOT_PICKUP_RATING_HIGH);
 }
@@ -64,7 +64,7 @@ void instagib_ammocheck()
 	{
 		if(!self.instagib_needammo)
 		{
-			Send_Notification(NOTIF_ONE_ONLY, self, MSG_CENTER, CENTER_INSTAGIB_DOWNGRADE);
+			Send_Notification(NOTIF_ONE, self, MSG_CENTER, CENTER_INSTAGIB_DOWNGRADE);
 			self.instagib_needammo = TRUE;
 		}
 	}

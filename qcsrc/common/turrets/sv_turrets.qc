@@ -725,11 +725,7 @@ float turret_validate_target(entity e_turret, entity e_target, float validate_fl
 		if (e_target.vehicle_health <= 0)
 			return -6;
 	}
-	else if (e_target.health <= 0)
-		return -6;
-	else if(e_target.frozen > 0)
-		return -6;
-	else if(e_target.jb_isprisoned > 0)
+	else if(Player_Trapped(e_target))
 		return -6;
 
 	// player

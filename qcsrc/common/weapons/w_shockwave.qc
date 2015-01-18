@@ -714,6 +714,7 @@ float W_Shockwave(float req)
 			precache_model(W_Model("h_shotgun.iqm"));
 			precache_sound("misc/itempickup.wav");
 			precache_sound(W_Sound("lasergun_fire"));
+			precache_sound(W_Sound("shotgun_melee"));
 			SHOCKWAVE_SETTINGS(WEP_SKIP_CVAR, WEP_SET_PROP)
 			return TRUE;
 		}

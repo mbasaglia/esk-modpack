@@ -288,11 +288,10 @@ void nade_ice_think()
 	for(e = findradius(self.origin, autocvar_g_nades_nade_radius); e; e = e.chain)
 	if(e != self)
 	if(!autocvar_g_nades_ice_teamcheck || (DIFF_TEAM(e, self.realowner) || e == self.realowner))
-	if(e.takedamage && e.deadflag == DEAD_NO)
+	if(e.takedamage)
 	if(e.health > 0)
-	if(!e.jb_isprisoned)
+	if(!Player_Trapped(e))
 	if(!e.revival_time || ((time - e.revival_time) >= 1.5))
-	if(!e.frozen)
 	if(current_freeze_time > 0)
 		nade_ice_freeze(self, e, current_freeze_time);
 }
@@ -926,8 +925,8 @@ MUTATOR_HOOKFUNCTION(nades_PlayerPreThink)
 	float key_pressed = self.BUTTON_HOOK;
 	float time_score;
 
-	if(g_grappling_hook || client_hasweapon(self, WEP_HOOK, FALSE, FALSE) || (weaponsInMap & WEPSET_HOOK) || g_jetpack || self.items & IT_JETPACK)
-		key_pressed = self.button16; // if hook/jetpack is enabled, use an alternate key
+	if(g_grappling_hook || client_hasweapon(self, WEP_HOOK, FALSE, FALSE) || (weaponsInMap & WEPSET_HOOK))
+		key_pressed = self.button16; // if hook is enabled, use an alternate key
 		
 	if(self.nade)
 	{
@@ -1063,7 +1062,7 @@ MUTATOR_HOOKFUNCTION(nades_PlayerSpawn)
 	self.nade_timer = 0;
 
 	if(self.nade_spawnloc)
-	if(!self.jb_isprisoned)
+	if(!Player_Trapped(self))
 	{
 		setorigin(self, self.nade_spawnloc.origin);
 		self.nade_spawnloc.cnt -= 1;

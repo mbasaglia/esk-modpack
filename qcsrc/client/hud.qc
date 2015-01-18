@@ -2299,11 +2299,7 @@ void HUD_Score(void)
 	vector distribution_color;
 	entity tm, pl, me;
 
-#ifdef COMPAT_XON050_ENGINE
-	me = (spectatee_status > 0) ? playerslots[spectatee_status - 1] : playerslots[player_localentnum - 1];
-#else
 	me = playerslots[player_localentnum - 1];
-#endif
 
 	if((scores_flags[ps_primary] & SFL_TIME) && !teamplay) { // race/cts record display on HUD
 		string timer, distrtimer;
@@ -3749,7 +3745,7 @@ void HUD_Mod_NexBall(vector pos, vector mySize)
 	//Manage the progress bar if any
 	if (nb_pb_starttime > 0)
 	{
-		dt = mod(time - nb_pb_starttime, nb_pb_period);
+		dt = (time - nb_pb_starttime) % nb_pb_period;
 		// one period of positive triangle
 		p = 2 * dt / nb_pb_period;
 		if (p > 1)
@@ -3936,6 +3932,7 @@ void DrawDomItem(vector myPos, vector mySize, float aspect_ratio, float layout, 
 			pic = "dom_icon_yellow";
 			color = '1 1 0';
 			break;
+		default:
 		case 3:
 			stat = getstatf(STAT_DOM_PPS_PINK);
 			pic = "dom_icon_pink";
@@ -4163,8 +4160,8 @@ void HUD_DiscoMode(void)
 				continue;
 			}
 
-			offset_y = 10 * ((k*10)+1) * cos(dmpos_x + 3 * time) * (mod(j, 2)? 1 : -1) * (k? 1 : -1);
-			offset_x = offset_y * (mod(j, 2)? -1 : 1);
+			offset_y = 10 * ((k*10)+1) * cos(dmpos_x + 3 * time) * ((j % 2)? 1 : -1) * (k? 1 : -1);
+			offset_x = offset_y * ((j % 2)? -1 : 1);
 			local string resultstr = strcat(mycolor, mychar);
 
 			dummyfunction(0, 0, 0, 0, 0, 0, 0, 0); // work around DP bug (set OFS_PARAM5 to 0)
@@ -4448,11 +4445,7 @@ void HUD_InfoMessages(void)
 			if(spectatee_status == -1)
 				s = _("^1Observing");
 			else
-#ifdef COMPAT_XON050_ENGINE
-				s = sprintf(_("^1Spectating: ^7%s ^1(^3fov: %d^1)"), GetPlayerName(spectatee_status - 1), fovlock);
-#else
 				s = sprintf(_("^1Spectating: ^7%s ^1(^3fov: %d^1)"), GetPlayerName(player_localentnum - 1), fovlock);
-#endif
 			drawInfoMessage(s)
 
 			if(spectatee_status == -1)
@@ -4521,7 +4514,7 @@ void HUD_InfoMessages(void)
 		}
 
 		string blinkcolor;
-		if(mod(time, 1) >= 0.5)
+		if(time % 1 >= 0.5)
 			blinkcolor = "^1";
 		else
 			blinkcolor = "^3";
@@ -5917,11 +5910,7 @@ void HUD_Main (void)
 		hud_skin_prev = strzone(autocvar_hud_skin);
 	}
 
-#ifdef COMPAT_XON050_ENGINE
-    current_player = (spectatee_status > 0) ? spectatee_status : player_localentnum;
-#else
     current_player = player_localentnum;
-#endif
 
 	// draw the dock
 	if(autocvar_hud_dock != "" && autocvar_hud_dock != "0")
@@ -5947,7 +5936,7 @@ void HUD_Main (void)
 			}
 			else if(hud_dock_color == "pants") {
 				f = stof(getplayerkeyvalue(current_player - 1, "colors"));
-				color = colormapPaletteColor(mod(f, 16), 1);
+				color = colormapPaletteColor(f % 16, 1);
 			}
 			else
 				color = stov(hud_dock_color);

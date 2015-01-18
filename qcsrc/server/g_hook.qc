@@ -369,7 +369,7 @@ void FireGrapplingHook (void)
 	float s;
 	vector vs;
 
-	if((time < game_starttime && !autocvar_sv_ready_restart_after_countdown) || self.frozen || self.vehicle || self.jb_isprisoned)
+	if((time < game_starttime && !autocvar_sv_ready_restart_after_countdown) || self.vehicle || Player_Trapped(self))
 		return;
 
 	makevectors(self.v_angle);
@@ -477,7 +477,7 @@ void GrapplingHookFrame()
 			//self.hook_state &= ~HOOK_RELEASING;
 		}
 	}
-	else if(!(self.items & IT_JETPACK) && !g_grappling_hook && self.switchweapon != WEP_HOOK && !self.vehicle)
+	else if(!g_grappling_hook && self.switchweapon != WEP_HOOK && !self.vehicle)
 	{
 		if(self.BUTTON_HOOK && !self.hook_switchweapon)
 			W_SwitchWeapon(WEP_HOOK);

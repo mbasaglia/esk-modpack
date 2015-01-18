@@ -19,7 +19,7 @@ void SUB_ForEachTarget(entity s, void(entity, float, vector, string, entity) cba
     float i;
     string targname = "";
     entity targ;
-    
+
     for(i = 0; i < 4; ++i)
     {
         switch(i)
@@ -29,7 +29,7 @@ void SUB_ForEachTarget(entity s, void(entity, float, vector, string, entity) cba
             case 2: targname = s.target3; break;
             case 3: targname = s.target4; break;
         }
-        
+
         if(targname != "")
         {
             for(targ = world; (targ = find(targ, targetname, targname));)
@@ -37,7 +37,7 @@ void SUB_ForEachTarget(entity s, void(entity, float, vector, string, entity) cba
             {
                 cback(targ, fdata, vdata, sdata, edata);
                 targ.targethandled = foreachtarget_callid;
-                
+
                 if(recursive)
                     SUB_ForEachTarget(targ, cback, recursive, fdata, vdata, sdata, edata);
             }
@@ -1813,7 +1813,7 @@ void target_voicescript_next(entity pl)
 			if(pl.voicescript_index < vs.cnt)
 				i = pl.voicescript_index * 2;
 			else if(n > vs.cnt * 2)
-				i = mod(pl.voicescript_index - vs.cnt, (n - vs.cnt * 2 - 1) / 2) * 2 + vs.cnt * 2 + 1;
+				i = ((pl.voicescript_index - vs.cnt) % ((n - vs.cnt * 2 - 1) / 2)) * 2 + vs.cnt * 2 + 1;
 			else
 				i = -1;
 

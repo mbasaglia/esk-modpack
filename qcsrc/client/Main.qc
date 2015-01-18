@@ -41,11 +41,6 @@ void CSQC_Init(void)
 
 	float i;
 
-#ifdef COMPAT_XON050_ENGINE
-	// old engine lacks implementation of player_localnum
-	player_localnum = player_localentnum - 1;
-#endif
-
 	binddb = db_create();
 	tempdb = db_create();
 	ClientProgsDB = db_load("client.db");
@@ -194,7 +189,7 @@ void CSQC_Init(void)
 	CALL_ACCUMULATED_FUNCTION(RegisterHUD_Panels);
 	CALL_ACCUMULATED_FUNCTION(RegisterBuffs);
 	CALL_ACCUMULATED_FUNCTION(RegisterEffects);
-	
+
 	initialize_minigames();
 
 	WaypointSprite_Load();
@@ -672,7 +667,7 @@ void Ent_ClientData()
 	}
 	spectatee_status = newspectatee_status;
 
-	// non-COMPAT_XON050_ENGINE: we could get rid of spectatee_status, and derive it from player_localentnum and player_localnum
+	// we could get rid of spectatee_status, and derive it from player_localentnum and player_localnum
 }
 
 void Ent_Nagger()
@@ -1058,7 +1053,6 @@ void CSQC_Ent_Remove()
 		print("WARNING: CSQC_Ent_Remove called for already removed entity. Packet loss?\n");
 		return;
 	}
-		
 	if(self.enttype)
 		Ent_Remove();
 	remove(self);

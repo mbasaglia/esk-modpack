@@ -310,7 +310,7 @@ void jeff_Announcer_FireBullet(entity targ, entity ent, vector hitloc, vector st
 		return;
 	if(!IS_PLAYER(targ))
 		return;
-	if(targ.frozen || !targ.takedamage || targ.jb_isprisoned || targ.deadflag != DEAD_NO)
+	if(!Player_Trapped(targ) || !targ.takedamage)
 		return;
 	vector headmins, headmaxs, org;
 	org = antilag_takebackorigin(targ, time - ANTILAG_LATENCY(ent));

@@ -185,7 +185,7 @@ void PutObserverInServer (void)
     self.hud = HUD_NORMAL;
 
 	if(IS_PLAYER(self)) { Send_Effect(EFFECT_SPAWN_NEUTRAL, self.origin, '0 0 0', 1); }
-	
+
 	if(autocvar_g_observer_glowtrails)
 		CSQCModel_UnlinkEntity();
 
@@ -477,7 +477,7 @@ void PlayerTouch (void)
 			animdecide_setaction(self, ANIMACTION_JUMP, TRUE);
 
 			self.restart_jump = -1; // restart jump anim next time
-			
+
 			Damage (other, self, self, autocvar_g_player_crush_damage, DEATH_CRUSH, other.origin, '0 0 0');
 		}
 	}
@@ -1317,6 +1317,10 @@ void ClientConnect (void)
 	// Wazat's grappling hook
 	SetGrappleHookBindings();
 
+	// Jetpack binds
+	stuffcmd(self, "alias +jetpack +button10\n");
+	stuffcmd(self, "alias -jetpack -button10\n");
+
 	// get version info from player
 	stuffcmd(self, "cmd clientversion $gameversion\n");
 
@@ -1917,7 +1921,7 @@ float SpectateSet()
 {
 	if(!IS_PLAYER(self.enemy))
 		return FALSE;
-		
+
 	ClientData_Touch(self.enemy);
 
 	msg_entity = self;
@@ -1995,7 +1999,7 @@ float SpectateNext()
 			other = find(other, classname, "player");
 	}
 
-	if (other)
+	if(other)
 	{
 		if(autocvar_g_observer_glowtrails)
 			CSQCMODEL_AUTOINIT(); // reinitialize csqc models, so we see animations properly
@@ -2349,6 +2353,33 @@ void PlayerUseKey()
 	MUTATOR_CALLHOOK(PlayerUseKey);
 }
 
+float isInvisibleString(string s)
+{
+	float i, n, c;
+	s = strdecolorize(s);
+	for((i = 0), (n = strlen(s)); i < n; ++i)
+	{
+		c = str2chr(s, i);
+		switch(c)
+		{
+			case 0:
+			case 32: // space
+				break;
+			case 192: // charmap space
+				if (!autocvar_utf8_enable)
+					break;
+				return FALSE;
+			case 160: // space in unicode fonts
+			case 0xE000 + 192: // utf8 charmap space
+				if (autocvar_utf8_enable)
+					break;
+			default:
+				return FALSE;
+		}
+	}
+	return TRUE;
+}
+
 /*
 =============
 PlayerPreThink
@@ -2383,8 +2414,17 @@ void PlayerPreThink (void)
 
 	zoomstate_set = 0;
 
-	if(self.netname_previous != self.netname)
-	{
+	// Savage: Check for nameless players
+	if (isInvisibleString(self.netname)) {
+		string new_name = strzone(strcat("Player@", self.netaddress));
+		if(autocvar_sv_eventlog)
+			GameLogEcho(strcat(":name:", ftos(self.playerid), ":", new_name));
+		if(self.netname_previous)
+			strunzone(self.netname_previous);
+		self.netname_previous = strzone(new_name);
+		self.netname = self.netname_previous;
+		// stuffcmd(self, strcat("name ", self.netname, "\n"));
+	} else if(self.netname_previous != self.netname) {
 		if(autocvar_sv_eventlog)
 			GameLogEcho(strcat(":name:", ftos(self.playerid), ":", self.netname));
 		if(self.netname_previous)
@@ -2734,33 +2774,6 @@ void PlayerPreThink (void)
 		self.clip_load = self.clip_size = 0;
 }
 
-float isInvisibleString(string s)
-{
-	float i, n, c;
-	s = strdecolorize(s);
-	for((i = 0), (n = strlen(s)); i < n; ++i)
-	{
-		c = str2chr(s, i);
-		switch(c)
-		{
-			case 0:
-			case 32: // space
-				break;
-			case 192: // charmap space
-				if (!autocvar_utf8_enable)
-					break;
-				return FALSE;
-			case 160: // space in unicode fonts
-			case 0xE000 + 192: // utf8 charmap space
-				if (autocvar_utf8_enable)
-					break;
-			default:
-				return FALSE;
-		}
-	}
-	return TRUE;
-}
-
 /*
 =============
 PlayerPostThink
@@ -2771,12 +2784,6 @@ Called every frame for each client after the physics are run
 .float idlekick_lasttimeleft;
 void PlayerPostThink (void)
 {
-	// Savage: Check for nameless players
-	if (isInvisibleString(self.netname)) {
-		self.netname = "Player";
-		stuffcmd(self, strcat("name ", self.netname, substring(ftos(random()), 2, -1), "\n"));
-	}
-
 	if(sv_maxidle > 0 && frametime) // WORKAROUND: only use dropclient in server frames (frametime set). Never use it in cl_movement frames (frametime zero).
 	if(IS_PLAYER(self) || sv_maxidle_spectatorsareidle)
 	{

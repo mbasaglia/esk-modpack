@@ -203,12 +203,17 @@ void MapVote_DrawMapItem(vector pos, float isize, float tsize, string map, strin
 	else
 	{
 		if(drawgetimagesize(pic) == '0 0 0')
-			//drawpic_rotated(pos, draw_UseSkinFor("nopreview_map"), img_size, '1 1 1', M_PI, theAlpha, DRAWFLAG_NORMAL);
+#ifdef APRILFOOLS
+			drawpic_rotated(pos, draw_UseSkinFor("nopreview_map"), img_size, '1 1 1', M_PI, theAlpha, DRAWFLAG_NORMAL);
+#else
 			drawpic(pos, draw_UseSkinFor("nopreview_map"), img_size, '1 1 1', theAlpha, DRAWFLAG_NORMAL);
+#endif
 		else
+#ifdef APRILFOOLS
+			drawpic_rotated(pos, pic, img_size, '1 1 1', M_PI, theAlpha, DRAWFLAG_NORMAL);
+#else
 			drawpic(pos, pic, img_size, '1 1 1', theAlpha, DRAWFLAG_NORMAL);
-            //drawpic_rotated(pos, pic, img_size, '1 1 1', M_PI, theAlpha, DRAWFLAG_NORMAL);
-
+#endif
 #ifdef XMAS
 		if(drawgetimagesize(xpic) != '0 0 0')
 			drawpic(pos, xpic, img_size, '1 1 1', theAlpha, DRAWFLAG_NORMAL);
@@ -245,7 +250,7 @@ void MapVote_DrawAbstain(vector pos, float isize, float tsize, float count, floa
 vector MapVote_GridVec(vector gridspec, float i, float m)
 {
 	float r;
-	r = mod(i, m);
+	r = i % m;
 	return
 		'1 0 0' * (gridspec_x * r)
 		+

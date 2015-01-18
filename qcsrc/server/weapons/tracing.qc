@@ -177,7 +177,7 @@ float Headshot(entity targ, entity ent, vector hitloc, vector start, vector end)
 		return FALSE;
 	if(!IS_PLAYER(targ))
 		return FALSE;
-	if(targ.frozen || !targ.takedamage || targ.jb_isprisoned || targ.deadflag != DEAD_NO)
+	if(Player_Trapped(targ) || !targ.takedamage)
 		return FALSE;
 	vector headmins, headmaxs, org;
 	org = antilag_takebackorigin(targ, time - ANTILAG_LATENCY(ent));

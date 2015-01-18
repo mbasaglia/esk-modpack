@@ -117,8 +117,7 @@ void buff_Touch()
 	}
 
 	if((self.team && DIFF_TEAM(other, self))
-	|| (other.frozen)
-	|| (other.jb_isprisoned)
+	|| (Player_Trapped(other))
 	|| (other.vehicle)
 	|| (!IS_PLAYER(other))
 	|| (!self.buff_active)
@@ -227,7 +226,7 @@ void buff_Think()
     }
 
 	if(!self.buff_active && !self.buff_activetime)
-	if(!self.owner || self.owner.frozen || self.owner.jb_isprisoned || self.owner.deadflag != DEAD_NO || !self.owner.iscreature || !(self.owner.buffs & self.buffs))
+	if(!self.owner || Player_Trapped(self.owner) || !self.owner.iscreature || !(self.owner.buffs & self.buffs))
 	{
 		buff_SetCooldown(autocvar_g_buffs_cooldown_respawn + frametime);
 		self.owner = world;
@@ -458,12 +457,10 @@ MUTATOR_HOOKFUNCTION(buffs_PlayerDamage_Calculate)
 	if(!frag_target.vehicle)
 	if(DEATH_WEAPONOF(frag_deathtype) != WEP_ARC)
 	if(!ITEM_DAMAGE_NEEDKILL(frag_deathtype))
-	if(frag_target.deadflag == DEAD_NO)
 	if(IS_PLAYER(frag_target) || IS_MONSTER(frag_target))
 	if(frag_attacker != frag_target)
-	if(!frag_target.frozen)
 	if(frag_target.takedamage)
-	if(!frag_target.jb_isprisoned)
+	if(!Player_Trapped(frag_target))
 	if(DIFF_TEAM(frag_attacker, frag_target))
 		frag_attacker.health = bound(0, frag_attacker.health + bound(0, frag_damage * autocvar_g_buffs_vampire_damage_steal, frag_target.health), g_pickup_healthsmall_max);
 
@@ -618,8 +615,8 @@ MUTATOR_HOOKFUNCTION(buffs_PlayerThink)
 		Send_Effect(EFFECT_SMOKING, self.origin + ((self.mins + self.maxs) * 0.5), '0 0 0', 1);
 		self.buff_disability_effect_time = time + 0.5;
 	}
-	
-	if(self.frozen || self.jb_isprisoned)
+
+	if(Player_Trapped(self))
 	{
 		if(self.buffs)
 		{

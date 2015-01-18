@@ -101,7 +101,7 @@ void W_Vortex_Attack(float issecondary)
 	myforce *= charge;
 
 	W_SetupShot(self, TRUE, 5, W_Sound("nexfire"), CH_WEAPON_A, mydmg);
-	if(charge > WEP_CVAR(vortex, charge_animlimit) && WEP_CVAR(vortex, charge_animlimit)) // if the Vortex is overcharged, we play an extra sound
+	if(WEP_CVAR(vortex, charge) && charge > WEP_CVAR(vortex, charge_animlimit) && WEP_CVAR(vortex, charge_animlimit)) // if the Vortex is overcharged, we play an extra sound
 	{
 		sound(self, CH_WEAPON_B, W_Sound("nexcharge"), VOL_BASE * (charge - 0.5 * WEP_CVAR(vortex, charge_animlimit)) / (1 - 0.5 * WEP_CVAR(vortex, charge_animlimit)), ATTN_NORM);
 	}

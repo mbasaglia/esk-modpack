@@ -523,9 +523,7 @@ vector Monster_Move_Target(entity targ)
 		WarpZone_TraceLine(self.origin, targ_origin, MOVE_NOMONSTERS, self);
 		
 		if(    (self.enemy == world)
-			|| (self.enemy.deadflag != DEAD_NO || self.enemy.health < 1)
-			|| (self.enemy.frozen)
-			|| (self.enemy.jb_isprisoned)
+			|| (Player_Trapped(self.enemy))
 			|| (self.enemy.flags & FL_NOTARGET)
 			|| (self.enemy.alpha < 0.5)
 			|| (self.enemy.takedamage == DAMAGE_NO)

@@ -79,10 +79,9 @@ void InitGameplayMode()
 		ActivateTeamplay();
 		fraglimit_override = autocvar_g_tdm_point_limit;
 		leadlimit_override = autocvar_g_tdm_point_leadlimit;
-		MUTATOR_ADD(gamemode_tdm);
-
 		if(autocvar_g_tdm_team_spawns)
 			have_team_spawns = -1; // request team spawns
+		MUTATOR_ADD(gamemode_tdm);
 	}
 
 	if(g_domination)
@@ -90,12 +89,10 @@ void InitGameplayMode()
 		ActivateTeamplay();
 		fraglimit_override = autocvar_g_domination_point_limit;
 		leadlimit_override = autocvar_g_domination_point_leadlimit;
-		MUTATOR_ADD(gamemode_domination);
-
 		if(autocvar_g_domination_roundbased && autocvar_g_domination_roundbased_point_limit)
 			fraglimit_override = autocvar_g_domination_roundbased_point_limit;
-
 		have_team_spawns = -1; // request team spawns
+		MUTATOR_ADD(gamemode_domination);
 	}
 
 	if(g_ctf)
@@ -103,8 +100,8 @@ void InitGameplayMode()
 		ActivateTeamplay();
 		fraglimit_override = autocvar_capturelimit_override;
 		leadlimit_override = autocvar_captureleadlimit_override;
-		MUTATOR_ADD(gamemode_ctf);
 		have_team_spawns = -1; // request team spawns
+		MUTATOR_ADD(gamemode_ctf);
 	}
 
 	if(g_lms)
@@ -121,9 +118,9 @@ void InitGameplayMode()
 		ActivateTeamplay();
 		fraglimit_override = autocvar_g_ca_point_limit;
 		leadlimit_override = autocvar_g_ca_point_leadlimit;
-		MUTATOR_ADD(gamemode_ca);
 		if(autocvar_g_ca_team_spawns)
 			have_team_spawns = -1; // request team spawns
+		MUTATOR_ADD(gamemode_ca);
 	}
 
 	if(g_keyhunt)
@@ -141,16 +138,16 @@ void InitGameplayMode()
 		ActivateTeamplay();
 		fraglimit_override = autocvar_g_freezetag_point_limit;
 		leadlimit_override = autocvar_g_freezetag_point_leadlimit;
-		MUTATOR_ADD(gamemode_freezetag);
 		if(autocvar_g_freezetag_team_spawns)
 			have_team_spawns = -1; // request team spawns
+		MUTATOR_ADD(gamemode_freezetag);
 	}
 
 	if(g_assault)
 	{
 		ActivateTeamplay();
-		MUTATOR_ADD(gamemode_assault);
 		have_team_spawns = -1; // request team spawns
+		MUTATOR_ADD(gamemode_assault);
 	}
 
 	if(g_onslaught)

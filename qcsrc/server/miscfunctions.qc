@@ -3,6 +3,18 @@ void objerror(string s);
 void droptofloor();
 .vector dropped_origin;
 
+float Player_Trapped(entity player)
+{
+	// 0: free, 1: confined, but free movement, 2: confined and unable to move
+	if(player.frozen)
+		return 2;
+	if(player.deadflag != DEAD_NO)
+		return 2; // technically speaking, player is kinda trapped in limbo (TODO: make sure checking this doesn't break anything)
+	if(player.jb_isprisoned)
+		return 1;
+	return 0;
+}
+
 float checkinlist(string command, string list)
 {
 	string l = strcat(" ", list, " ");
@@ -490,6 +502,7 @@ void GetCvars(float f)
 
 	GetCvars_handleFloat(s, f, autoswitch, "cl_autoswitch");
 	GetCvars_handleFloat(s, f, cvar_cl_autoscreenshot, "cl_autoscreenshot");
+	GetCvars_handleFloat(s, f, cvar_cl_jetpack_jump, "cl_jetpack_jump");
 	GetCvars_handleString(s, f, cvar_g_xonoticversion, "g_xonoticversion");
 	GetCvars_handleString(s, f, cvar_cl_autovote, "cl_autovote");
 	GetCvars_handleString(s, f, cvar_cl_physics, "cl_physics");
@@ -1322,7 +1335,7 @@ void precache()
 					precache_model(argv(i));
 				}
 			}
-			
+
 			precache_playermodel(s);
 		}
     }
