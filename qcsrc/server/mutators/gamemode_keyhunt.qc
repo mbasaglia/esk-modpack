@@ -730,7 +730,7 @@ void kh_KeyThink()
 
 		case KEY_CARRY:
 		{
-			makevectors('0 1 0' * (self.cnt + mod(time, 360) * KH_KEY_XYSPEED));
+			makevectors('0 1 0' * (self.cnt + (time % 360) * KH_KEY_XYSPEED));
 			setorigin(self, v_forward * ((self.owner.vehicle) ? KH_VEHICLE_KEY_XYDIST : KH_KEY_XYDIST) + '0 0 1' * self.origin_z);
 			return;
 		}

@@ -490,6 +490,7 @@ void GetCvars(float f)
 
 	GetCvars_handleFloat(s, f, autoswitch, "cl_autoswitch");
 	GetCvars_handleFloat(s, f, cvar_cl_autoscreenshot, "cl_autoscreenshot");
+	GetCvars_handleFloat(s, f, cvar_cl_jetpack_jump, "cl_jetpack_jump");
 	GetCvars_handleString(s, f, cvar_g_xonoticversion, "g_xonoticversion");
 	GetCvars_handleString(s, f, cvar_cl_autovote, "cl_autovote");
 	GetCvars_handleString(s, f, cvar_cl_physics, "cl_physics");
@@ -1322,7 +1323,7 @@ void precache()
 					precache_model(argv(i));
 				}
 			}
-			
+
 			precache_playermodel(s);
 		}
     }

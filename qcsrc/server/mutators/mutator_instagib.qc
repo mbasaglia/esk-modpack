@@ -64,7 +64,7 @@ void instagib_ammocheck()
 	{
 		if(!self.instagib_needammo)
 		{
-			Send_Notification(NOTIF_ONE_ONLY, self, MSG_CENTER, CENTER_INSTAGIB_DOWNGRADE);
+			Send_Notification(NOTIF_ONE, self, MSG_CENTER, CENTER_INSTAGIB_DOWNGRADE);
 			self.instagib_needammo = TRUE;
 		}
 	}

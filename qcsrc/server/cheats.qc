@@ -1082,7 +1082,7 @@ void DragBox_Think()
 	}
 	else
 	{
-		setmodel(self.killindicator, strcat("models/sprites/", ftos(mod(self.cnt, 10)), ".spr32"));
+		setmodel(self.killindicator, strcat("models/sprites/", ftos(self.cnt % 10), ".spr32"));
 		setmodel(self.killindicator.killindicator, strcat("models/sprites/", ftos(floor(self.cnt / 10)), ".spr32"));
 	}
 

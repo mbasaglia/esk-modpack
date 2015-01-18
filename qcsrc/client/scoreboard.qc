@@ -374,7 +374,7 @@ void Cmd_HUD_SetFields(float argc)
 		if(substring(str, 0, 1) == "~")
 		{
 			nocomplain = TRUE;
-			
+
 			if(autocvar_scoreboard_extras)
 				str = substring(str, 1, strlen(str) - 1);
 			else
@@ -544,7 +544,7 @@ string HUD_GetField(entity pl, float field)
 	{
 		case SP_PING:
 			if (!pl.gotscores)
-				return "\xEE\x82\x8D\xEE\x82\x8D\xEE\x82\x8D"; // >>> sign
+				return "\xE2\x96\xB6\xE2\x96\xB6\xE2\x96\xB6"; // >>> sign using U+25B6
 			//str = getplayerkeyvalue(pl.sv_entnum, "ping");
 			f = pl.ping;
 			if(f == 0)
@@ -591,7 +591,7 @@ string HUD_GetField(entity pl, float field)
 					hud_field_icon1 = "gfx/scoreboard/playercolor_shirt";
 					hud_field_icon1_rgb = colormapPaletteColor(floor(f / 16), 0);
 					hud_field_icon2 = "gfx/scoreboard/playercolor_pants";
-					hud_field_icon2_rgb = colormapPaletteColor(mod(f, 16), 1);
+					hud_field_icon2_rgb = colormapPaletteColor(f % 16, 1);
 				}
 			}
 			return GetPlayerName(pl.sv_entnum);
@@ -731,7 +731,7 @@ void HUD_PrintScoreboardItem(vector pos, vector item_size, entity pl, float is_s
 	// alternated rows highlighting
 	if(is_self)
 		drawfill(h_pos, h_size, rgb, scoreboard_highlight_alpha_self, DRAWFLAG_NORMAL);
-	else if((scoreboard_highlight) && (!mod(pl_number,2)))
+	else if((scoreboard_highlight) && (!(pl_number % 2)))
 		drawfill(h_pos, h_size, rgb, scoreboard_highlight_alpha, DRAWFLAG_NORMAL);
 
 	tmp_x = item_size_x;
@@ -910,7 +910,7 @@ vector HUD_Scoreboard_MakeTable(vector pos, entity tm, vector rgb, vector bg_siz
 		column_dim_x = hud_size[i] + hud_fontsize_x;
 		if (scoreboard_highlight)
 		{
-			if (mod(i,2))
+			if (i % 2)
 				drawfill(pos - '0 1 0' - hud_fontsize_x / 2 * '1 0 0', column_dim, '0 0 0', scoreboard_alpha_bg * 0.2, DRAWFLAG_NORMAL);
 		}
 		drawstring(pos, hud_title[i], hud_fontsize, rgb * 1.5, scoreboard_alpha_fg, DRAWFLAG_NORMAL);
@@ -929,7 +929,7 @@ vector HUD_Scoreboard_MakeTable(vector pos, entity tm, vector rgb, vector bg_siz
 
 			if (scoreboard_highlight)
 			{
-				if (!mod(i,2))
+				if (!(i % 2))
 				{
 					if (i == hud_num_fields-1)
 						column_dim_x = hud_size[i] + hud_fontsize_x / 2 + 1;
@@ -1046,7 +1046,7 @@ vector HUD_DrawScoreboardAccuracyStats(vector pos, vector rgb, vector bg_size)
 	// column highlighting
 	for(i = 0; i < weapon_cnt/rows; ++i)
 	{
-		if(!mod(i, 2))
+		if(!(i % 2))
 			drawfill(pos + '1 0 0' * weapon_width * rows * i, '0 1 0' * height * rows + '1 0 0' * weapon_width * rows, '0 0 0', scoreboard_alpha_bg * 0.2, DRAWFLAG_NORMAL);
 	}
 
@@ -1237,7 +1237,7 @@ vector HUD_DrawScoreboardRankings(vector pos, entity pl,  vector rgb, vector bg_
 		p = count_ordinal(i+1);
 		if(grecordholder[i] == GetPlayerName(player_localnum))
 			drawfill(pos, '1 0 0' * sbwidth + '0 1.25 0' * hud_fontsize_y, hl_rgb, scoreboard_highlight_alpha_self, DRAWFLAG_NORMAL);
-		else if(!mod(i, 2) && scoreboard_highlight)
+		else if(!(i % 2) && scoreboard_highlight)
 			drawfill(pos, '1 0 0' * sbwidth + '0 1.25 0' * hud_fontsize_y, hl_rgb, scoreboard_highlight_alpha, DRAWFLAG_NORMAL);
 		drawstring(pos, p, '1 1 0' * hud_fontsize_y, '1 1 1', scoreboard_alpha_fg, DRAWFLAG_NORMAL);
 		drawstring(pos + '3 0 0' * hud_fontsize_y, TIME_ENCODED_TOSTRING(t), '1 1 0' * hud_fontsize_y, '1 1 1', scoreboard_alpha_fg, DRAWFLAG_NORMAL);

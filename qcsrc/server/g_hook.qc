@@ -477,7 +477,7 @@ void GrapplingHookFrame()
 			//self.hook_state &= ~HOOK_RELEASING;
 		}
 	}
-	else if(!(self.items & IT_JETPACK) && !g_grappling_hook && self.switchweapon != WEP_HOOK && !self.vehicle)
+	else if(!g_grappling_hook && self.switchweapon != WEP_HOOK && !self.vehicle)
 	{
 		if(self.BUTTON_HOOK && !self.hook_switchweapon)
 			W_SwitchWeapon(WEP_HOOK);

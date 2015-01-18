@@ -467,7 +467,6 @@ void GameCommand_cointoss(float request, float argc)
 			string choice = ((random() > 0.5) ? result1 : result2);
 
 			Send_Notification(NOTIF_ALL, world, MSG_MULTI, MULTI_COINTOSS, choice);
-
 			return;
 		}
 

@@ -187,7 +187,7 @@ float W_Hook(float req)
 		}
 		case WR_THINK:
 		{
-			if(self.BUTTON_ATCK || (!(self.items & IT_JETPACK) && self.BUTTON_HOOK))
+			if(self.BUTTON_ATCK || self.BUTTON_HOOK)
 			{
 				if(!self.hook)
 				if(!(self.hook_state & HOOK_WAITING_FOR_RELEASE))
@@ -261,7 +261,7 @@ float W_Hook(float req)
 			if(self.BUTTON_CROUCH)
 			{
 				self.hook_state &= ~HOOK_PULLING;
-				if(self.BUTTON_ATCK || (!(self.items & IT_JETPACK) && self.BUTTON_HOOK))
+				if(self.BUTTON_ATCK || self.BUTTON_HOOK)
 					self.hook_state &= ~HOOK_RELEASING;
 				else
 					self.hook_state |= HOOK_RELEASING;
@@ -271,7 +271,7 @@ float W_Hook(float req)
 				self.hook_state |= HOOK_PULLING;
 				self.hook_state &= ~HOOK_RELEASING;
 
-				if(self.BUTTON_ATCK || (!(self.items & IT_JETPACK) && self.BUTTON_HOOK))
+				if(self.BUTTON_ATCK || self.BUTTON_HOOK)
 				{
 					// already fired
 					if(self.hook)

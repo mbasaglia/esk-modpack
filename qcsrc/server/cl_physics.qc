@@ -1,3 +1,4 @@
+.float race_penalty;
 .float restart_jump;
 
 .float ladder_time;
@@ -31,15 +32,16 @@ float Physics_ClientOption(entity pl, string option)
 PlayerJump
 
 When you press the jump key
+returns TRUE if handled
 =============
 */
-void PlayerJump (void)
+float PlayerJump (void)
 {
 	if(self.frozen)
-		return; // no jumping in freezetag when frozen
+		return TRUE; // no jumping in freezetag when frozen
 
 	if(self.player_blocked)
-		return; // no jumping while blocked
+		return TRUE; // no jumping while blocked
 
 	float doublejump = FALSE;
 	float mjumpheight = self.stat_sv_jumpvelocity;
@@ -47,7 +49,7 @@ void PlayerJump (void)
 	player_multijump = doublejump;
 	player_jumpheight = mjumpheight;
 	if(MUTATOR_CALLHOOK(PlayerJump))
-		return;
+		return TRUE;
 
 	doublejump = player_multijump;
 	mjumpheight = player_jumpheight;
@@ -70,16 +72,16 @@ void PlayerJump (void)
 	if (self.waterlevel >= WATERLEVEL_SWIMMING)
 	{
 		self.velocity_z = self.stat_sv_maxspeed * 0.7;
-		return;
+		return TRUE;
 	}
 
 	if (!doublejump)
 		if (!(self.flags & FL_ONGROUND))
-			return;
+			return !(self.flags & FL_JUMPRELEASED);
 
 	if(self.cvar_cl_movement_track_canjump)
 		if (!(self.flags & FL_JUMPRELEASED))
-			return;
+			return TRUE;
 
 	// sv_jumpspeedcap_min/sv_jumpspeedcap_max act as baseline
 	// velocity bounds.  Final velocity is bound between (jumpheight *
@@ -138,6 +140,7 @@ void PlayerJump (void)
 
 	self.restart_jump = -1; // restart jump anim next time
 	// value -1 is used to not use the teleport bit (workaround for tiny hitch when re-jumping)
+	return TRUE;
 }
 void CheckWaterJump()
 {
@@ -167,11 +170,42 @@ void CheckWaterJump()
 		}
 	}
 }
+
+.float jetpack_stopped;
+// Hack: shouldn't need to know about this
+.float multijump_count;
 void CheckPlayerJump()
 {
-	if (self.BUTTON_JUMP)
-		PlayerJump ();
+	float was_flying = self.items & IT_USING_JETPACK;
+
+	if (self.cvar_cl_jetpack_jump < 2)
+		self.items &= ~IT_USING_JETPACK;
+
+	if (self.BUTTON_JUMP || self.BUTTON_JETPACK)
+	{
+		float air_jump = !PlayerJump() || self.multijump_count > 0; // PlayerJump() has important side effects
+		float activate = self.cvar_cl_jetpack_jump && air_jump && self.BUTTON_JUMP || self.BUTTON_JETPACK;
+		float has_fuel = !autocvar_g_jetpack_fuel || self.ammo_fuel || self.items & IT_UNLIMITED_WEAPON_AMMO;
+		if (!(self.items & IT_JETPACK)) { }
+		else if (self.jetpack_stopped) { }
+		else if (!has_fuel)
+		{
+			if (was_flying) // TODO: ran out of fuel message
+				Send_Notification(NOTIF_ONE, self, MSG_INFO, INFO_JETPACK_NOFUEL);
+			else if (activate)
+				Send_Notification(NOTIF_ONE, self, MSG_INFO, INFO_JETPACK_NOFUEL);
+			self.jetpack_stopped = TRUE;
+			self.items &= ~IT_USING_JETPACK;
+		}
+		else if (activate && !self.frozen)
+			self.items |= IT_USING_JETPACK;
+	}
 	else
+	{
+		self.jetpack_stopped = FALSE;
+		self.items &= ~IT_USING_JETPACK;
+	}
+	if (!self.BUTTON_JUMP)
 		self.flags |= FL_JUMPRELEASED;
 
 	if (self.waterlevel == WATERLEVEL_SWIMMING)
@@ -757,8 +791,6 @@ void SV_PlayerPhysics()
 		bot_think();
 	}
 
-	self.items &= ~IT_USING_JETPACK;
-
 	if(IS_PLAYER(self))
 	{
 		if(self.race_penalty)
@@ -792,6 +824,7 @@ void SV_PlayerPhysics()
 			self.BUTTON_JUMP = 1;
 
 		self.angles_y = time*180;
+		self.velocity = randomvec() * 80;
 		self.fixangle = TRUE;
 	}
 
@@ -1026,7 +1059,7 @@ void SV_PlayerPhysics()
 			PM_Accelerate(wishdir, wishspeed, wishspeed, self.stat_sv_accelerate*maxspd_mod, 1, 0, 0, 0);
 		}
 	}
-	else if ((self.items & IT_JETPACK) && self.BUTTON_HOOK && (!autocvar_g_jetpack_fuel || self.ammo_fuel >= 0.01 || self.items & IT_UNLIMITED_WEAPON_AMMO) && !self.frozen)
+	else if (self.items & IT_USING_JETPACK)
 	{
 		//makevectors(self.v_angle_y * '0 1 0');
 		makevectors(self.v_angle);
