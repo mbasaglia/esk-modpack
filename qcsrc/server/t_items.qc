@@ -1010,14 +1010,9 @@ void StartItem (string itemmodel, string pickupsound, float defaultrespawntime, 
 	self.bot_pickup = TRUE;
 	self.bot_pickupevalfunc = pickupevalfunc;
 	self.bot_pickupbasevalue = pickupbasevalue;
-	if(autocvar_sv_items_modeloverride != "" && autocvar_sv_items_modeloverride != "default")
-	{
-		if(self.mdl) { strunzone(self.mdl); }
-		self.mdl = "";
-		self.mdl = strzone(self.model);
-	}
-	else
-		self.mdl = self.model;
+	if(self.mdl) { strunzone(self.mdl); }
+	self.mdl = "";
+	self.mdl = strzone(self.model);
 	self.netname = itemname;
 	self.touch = Item_Touch;
 	setmodel(self, "null"); // precision set below
