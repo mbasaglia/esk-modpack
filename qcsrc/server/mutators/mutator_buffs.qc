@@ -372,7 +372,7 @@ void buff_SpawnReplacement(entity ent, entity old)
 // mutator hooks
 MUTATOR_HOOKFUNCTION(buffs_PlayerDamage_SplitHealthArmor)
 {
-	if(DEATH_ISBUFF(frag_deathtype)) { return FALSE; } // oh no you don't
+	if(frag_deathtype == DEATH_BUFF) { return FALSE; }
 
 	if(frag_target.buffs & BUFF_RESISTANCE)
 	{
@@ -391,7 +391,7 @@ MUTATOR_HOOKFUNCTION(buffs_PlayerDamage_SplitHealthArmor)
 void buff_Vengeance_DelayedDamage()
 {
 	if(self.enemy)
-		Damage(self.enemy, self.owner, self.owner, self.dmg, DEATH_BUFF_VENGEANCE, self.enemy.origin, '0 0 0');
+		Damage(self.enemy, self.owner, self.owner, self.dmg, DEATH_BUFF, self.enemy.origin, '0 0 0');
 	
 	remove(self);
 	return;
@@ -399,7 +399,7 @@ void buff_Vengeance_DelayedDamage()
 
 MUTATOR_HOOKFUNCTION(buffs_PlayerDamage_Calculate)
 {
-	if(DEATH_ISBUFF(frag_deathtype)) { return FALSE; } // oh no you don't
+	if(frag_deathtype == DEATH_BUFF) { return FALSE; }
 
 	if(frag_target.buffs & BUFF_SPEED)
 	if(frag_target != frag_attacker)
