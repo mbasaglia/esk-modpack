@@ -1010,7 +1010,7 @@ void StartItem (string itemmodel, string pickupsound, float defaultrespawntime, 
 	self.bot_pickup = TRUE;
 	self.bot_pickupevalfunc = pickupevalfunc;
 	self.bot_pickupbasevalue = pickupbasevalue;
-	if(self.mdl) { strunzone(self.mdl); }
+	//if(self.mdl) { strunzone(self.mdl); }
 	self.mdl = "";
 	self.mdl = strzone(self.model);
 	self.netname = itemname;
