@@ -138,7 +138,9 @@ MUTATOR_HOOKFUNCTION(hats_PlayerSpawn)
 {
 	hats_SpawnHat();
 	self.hatentity.alpha = default_weapon_alpha;
-#ifdef XMAS
+#ifdef ADAY
+	self.hatname = strzone("cowboy");
+#elif defined(XMAS)
 	self.hatname = strzone("santa");
 #else
 	self.hatname = strzone(self.cvar_cl_hat);

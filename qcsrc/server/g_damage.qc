@@ -492,8 +492,12 @@ void Obituary(entity attacker, entity inflictor, entity targ, float deathtype)
 				);
 			}
 
+			float f3 = 0;
+			if(deathtype == DEATH_BUFF)
+				f3 = attacker.buffs;
+
 			if (!Obituary_WeaponDeath(targ, TRUE, deathtype, targ.netname, attacker.netname, deathlocation, targ.killcount, kill_count_to_attacker))
-				Obituary_SpecialDeath(targ, TRUE, deathtype, targ.netname, attacker.netname, deathlocation, targ.killcount, kill_count_to_attacker, 0);
+				Obituary_SpecialDeath(targ, TRUE, deathtype, targ.netname, attacker.netname, deathlocation, targ.killcount, kill_count_to_attacker, f3);
 		}
 	}
 
@@ -836,7 +840,7 @@ void Damage (entity targ, entity inflictor, entity attacker, float damage, float
 		// count the damage
 		if(attacker)
 		if(!targ.deadflag)
-		if(!DEATH_ISBUFF(deathtype))
+		if(deathtype != DEATH_BUFF)
 		if(targ.takedamage == DAMAGE_AIM)
 		if(targ != attacker)
 		{
