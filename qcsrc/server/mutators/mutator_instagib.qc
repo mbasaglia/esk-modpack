@@ -449,8 +449,9 @@ MUTATOR_DEFINITION(mutator_instagib)
 		
 		if(cvar("g_instagib_withmines"))
 			(get_weaponinfo(WEP_MINE_LAYER)).spawnflags &= ~WEP_FLAG_MUTATORBLOCKED;
+		(get_weaponinfo(WEP_VAPORIZER)).weaponthrowable = 1; // we allow throwing, then forbid it above (allows for dropping on death)
 
-            g_instagib = cvar("g_instagib");
+		g_instagib = cvar("g_instagib");
 	}
 	
 	MUTATOR_ONREMOVE
@@ -458,7 +459,7 @@ MUTATOR_DEFINITION(mutator_instagib)
 		if(cvar("g_instagib_withmines"))
 			(get_weaponinfo(WEP_MINE_LAYER)).spawnflags |= WEP_FLAG_MUTATORBLOCKED;
 
-             g_instagib = 0;
+		g_instagib = 0;
 	}
 
 	return FALSE;
